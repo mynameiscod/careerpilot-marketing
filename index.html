@@ -58,7 +58,7 @@
     <div class="container nav-inner">
       <a class="brand" href="#top"><span class="mark"><i class="bi bi-send-fill"></i></span><span><strong>CareerPilot</strong><small>by CodeBegun</small></span></a>
       <nav class="menu"><a href="#assessment">Career Readiness</a><a href="#journey">How It Works</a><a href="#features">Features</a><a href="#pricing">Pricing</a></nav>
-      <div class="actions"><a class="btn outline" href="https://platform.codebegun.com/careerpilot">Login</a><a class="btn primary" href="#assessment">Check My Career Readiness <i class="bi bi-arrow-right"></i></a></div>
+      <div class="actions"><a class="btn outline" data-track="login" href="https://platform.codebegun.com/careerpilot">Login</a><a class="btn primary" data-track="career-readiness" data-cta-location="header" href="#assessment">Check My Career Readiness <i class="bi bi-arrow-right"></i></a></div>
     </div>
   </header>
 
@@ -69,7 +69,7 @@
           <span class="eyebrow"><i class="bi bi-stars"></i> Built for B.Tech students</span>
           <h1>Your Placement Journey Shouldn’t Start in Final Year.</h1>
           <p class="lead">Know where you stand today. Discover your skill gaps. Follow a personalized roadmap and build career readiness one step at a time.</p>
-          <div class="hero-cta"><a class="btn primary" href="#assessment">Check My Career Readiness — FREE <i class="bi bi-arrow-right"></i></a><a class="btn outline" href="#journey">See How It Works</a></div>
+          <div class="hero-cta"><a class="btn primary" data-track="career-readiness" data-cta-location="hero" href="#assessment">Check My Career Readiness — FREE <i class="bi bi-arrow-right"></i></a><a class="btn outline" href="#journey">See How It Works</a></div>
           <div class="micro"><span><i class="bi bi-clock"></i> Around 15 minutes</span><span><i class="bi bi-person-check"></i> Personalized results</span><span><i class="bi bi-code-slash"></i> No prior coding expertise required</span></div>
           <div class="stats"><div class="stat"><strong>4-Year</strong><span>Guided Journey</span></div><div class="stat"><strong>12+</strong><span>Career-readiness modules</span></div><div class="stat"><strong>1</strong><span>Personal Career Copilot</span></div></div>
         </div>
@@ -87,7 +87,7 @@
           <h2 class="title">How Career-Ready Are You Today?</h2>
           <p class="sub">Take the CareerPilot Career Readiness Check and understand your current level across the skills that matter.</p>
           <div class="checks"><div><i class="bi bi-check-circle"></i>Your Career Readiness Score</div><div><i class="bi bi-check-circle"></i>Strengths and improvement areas</div><div><i class="bi bi-check-circle"></i>Skill-by-skill analysis</div><div><i class="bi bi-check-circle"></i>Personalized recommendations</div><div><i class="bi bi-check-circle"></i>Your next learning priorities</div><div><i class="bi bi-check-circle"></i>Career roadmap</div></div>
-          <a class="btn primary" href="https://platform.codebegun.com/careerpilot/join?tenant=codebegun">Get My Career Readiness Score <i class="bi bi-arrow-right"></i></a>
+          <a class="btn primary" data-track="career-readiness" data-cta-location="assessment" href="https://platform.codebegun.com/careerpilot/join?tenant=codebegun">Get My Career Readiness Score <i class="bi bi-arrow-right"></i></a>
           <div style="margin-top:9px;font-size:12px;font-weight:700;color:var(--navy)">FREE • No payment required</div>
         </div>
         <div class="report-wrap">
@@ -137,14 +137,72 @@
         <div class="pricing" id="pricing">
           <div><div class="price-title">CareerPilot Membership</div><div style="color:#4f6080;margin:4px 0 10px">Your Personal Career Copilot for Engineering.</div><div class="price">₹1,599 <span>/ Year</span></div><small>That’s approximately ₹133/month.</small></div>
           <ul><li>Full access to CareerPilot features</li><li>Regular learning updates</li><li>Mock interviews & contests</li><li>Career-readiness tracking</li></ul>
-          <div><a class="btn primary" style="width:100%;padding:16px" href="https://platform.codebegun.com/careerpilot/join?tenant=codebegun">Start My CareerPilot Journey <i class="bi bi-arrow-right"></i></a><div style="text-align:center;margin-top:9px;font-size:11px;color:#63718b">Secure payment • Instant access</div></div>
+          <div><a class="btn primary" data-track="membership" style="width:100%;padding:16px" href="https://platform.codebegun.com/careerpilot/join?tenant=codebegun">Start My CareerPilot Journey <i class="bi bi-arrow-right"></i></a><div style="text-align:center;margin-top:9px;font-size:11px;color:#63718b">Secure payment • Instant access</div></div>
         </div>
       </div>
     </section>
 
-    <section class="final"><div class="container final-inner"><div><h2>Still Thinking “I Have 4 Years”?</h2><p>That’s exactly why you should start now. 15 minutes today can show you where to begin.</p></div><a class="btn" href="https://platform.codebegun.com/careerpilot/join?tenant=codebegun">Take My Free Career Readiness Check <i class="bi bi-arrow-right"></i></a></div></section>
+    <section class="final"><div class="container final-inner"><div><h2>Still Thinking “I Have 4 Years”?</h2><p>That’s exactly why you should start now. 15 minutes today can show you where to begin.</p></div><a class="btn" data-track="career-readiness" data-cta-location="final" href="https://platform.codebegun.com/careerpilot/join?tenant=codebegun">Take My Free Career Readiness Check <i class="bi bi-arrow-right"></i></a></div></section>
   </main>
 
   <footer><div class="container"><div class="footer-top"><a class="brand" href="#top"><span class="mark"><i class="bi bi-send-fill"></i></span><span><strong>CareerPilot</strong><small>by CodeBegun</small></span></a><div class="footer-links"><a href="#assessment">Career Readiness</a><a href="#journey">For Students</a><a href="#features">Features</a><a href="#pricing">Pricing</a><a href="https://www.codebegun.com/">CodeBegun</a></div></div><div class="footer-bottom"><span>© 2026 CodeBegun. All rights reserved.</span><span>Making Every Student Career-Ready.</span></div></div></footer>
+
+  <script>
+    (function () {
+      function ga(eventName, params) {
+        if (typeof window.gtag === 'function') window.gtag('event', eventName, params || {});
+      }
+      function metaStandard(eventName, params) {
+        if (typeof window.fbq === 'function') window.fbq('track', eventName, params || {});
+      }
+      function metaCustom(eventName, params) {
+        if (typeof window.fbq === 'function') window.fbq('trackCustom', eventName, params || {});
+      }
+
+      document.addEventListener('click', function (event) {
+        var el = event.target.closest('[data-track]');
+        if (!el) return;
+
+        var type = el.getAttribute('data-track');
+        var location = el.getAttribute('data-cta-location') || 'page';
+        var destination = el.getAttribute('href') || '';
+
+        if (type === 'career-readiness') {
+          var readinessParams = { cta_location: location, destination: destination };
+          ga('career_readiness_cta_click', readinessParams);
+          metaStandard('Lead', { content_name: 'Career Readiness Check', cta_location: location });
+        }
+
+        if (type === 'login') {
+          var loginParams = { destination: destination };
+          ga('login_click', loginParams);
+          metaCustom('LoginClick', loginParams);
+        }
+
+        if (type === 'membership') {
+          var membershipParams = { plan: 'annual', value: 1599, currency: 'INR', destination: destination };
+          ga('membership_cta_click', membershipParams);
+          metaCustom('MembershipCTAClick', membershipParams);
+        }
+      });
+
+      var pricing = document.getElementById('pricing');
+      var pricingTracked = false;
+      if (pricing && 'IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting && !pricingTracked) {
+              pricingTracked = true;
+              var pricingParams = { section: 'pricing', plan: 'annual', value: 1599, currency: 'INR' };
+              ga('pricing_view', pricingParams);
+              metaStandard('ViewContent', { content_name: 'CareerPilot Pricing', content_type: 'product', value: 1599, currency: 'INR' });
+              observer.disconnect();
+            }
+          });
+        }, { threshold: 0.35 });
+        observer.observe(pricing);
+      }
+    })();
+  </script>
 </body>
 </html>
