@@ -1,20 +1,25 @@
 (() => {
   const fireGA = (name, params={}) => { if (typeof window.gtag === 'function') window.gtag('event', name, params); };
   const fireMeta = (type, name, params={}) => { if (typeof window.fbq === 'function') window.fbq(type, name, params); };
-  const page = document.body?.dataset?.page || location.pathname;
+  const page = document.body?.dataset?.page || (location.pathname === '/' ? 'home' : location.pathname);
   const params = new URLSearchParams(location.search);
   ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(k=>{ const v=params.get(k); if(v) sessionStorage.setItem(k,v); });
   const campaign = Object.fromEntries(['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].map(k=>[k,sessionStorage.getItem(k)||'']).filter(([,v])=>v));
+  const basePayload = () => ({ page, page_path: location.pathname, ...campaign });
   window.cpTrack = (eventName, metaName, extra={}) => {
-    const payload = {page, ...campaign, ...extra};
+    const payload = { ...basePayload(), ...extra };
     fireGA(eventName,payload);
     if(metaName) fireMeta(metaName.standard ? 'track' : 'trackCustom', metaName.name, payload);
   };
+
+  // Landing-page view for campaign comparison in GA4/Meta.
+  cpTrack('landing_page_view',{standard:false,name:'LandingPageView'},{landing_page_variant:page});
 
   const pricingSection = document.querySelector('#pricing');
   const offer = pricingSection?.querySelector('.offer');
   if (offer) {
     const ctaByPage = {
+      'home':'Start My CareerPilot Journey',
       'career-readiness':'Start My Career Journey',
       'start-early':'Start My Career Journey',
       'skill-gap':'Start My Roadmap',
@@ -52,7 +57,7 @@
           </div>
           <div class="cp-price-right">
             <div class="cp-price-visual"><i class="bi bi-rocket-takeoff"></i></div>
-            <a class="btn btn-teal" data-track="membership" href="https://platform.codebegun.com/careerpilot/join?tenant=codebegun">${cta} <i class="bi bi-arrow-right"></i></a>
+            <a class="btn btn-teal" data-track="membership" data-location="pricing" href="https://platform.codebegun.com/careerpilot/join?tenant=codebegun">${cta} <i class="bi bi-arrow-right"></i></a>
             <div class="cp-trust-row">
               <div><i class="bi bi-credit-card"></i><b>Easy Access</b></div>
               <div><i class="bi bi-headset"></i><b>Guided Support</b></div>
@@ -80,56 +85,71 @@
     pricingSection.parentNode.insertBefore(section, pricingSection);
   }
 
-  // Shared Industry Relations section for every CareerPilot campaign page.
   const expectationsSection = document.querySelector('#expectations-gap');
   if (pricingSection && !document.querySelector('#industry-relations')) {
     const industryStyle = document.createElement('style');
-    industryStyle.textContent = `
-      .industry-relations{padding:78px 0;background:#fff}.ir-head{display:grid;grid-template-columns:.9fr 1.1fr;gap:34px;align-items:end;margin-bottom:28px}.ir-kicker{display:inline-flex;gap:8px;align-items:center;color:#248da0;font-size:12px;font-weight:800;letter-spacing:.11em;text-transform:uppercase}.ir-head h2{font-size:44px;line-height:1.06;letter-spacing:-1.7px;color:#051D64;margin:12px 0 10px}.ir-head h2 span{color:#19afbf}.ir-head p{margin:0;color:#65728a;font-size:16px;max-width:680px}.ir-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.ir-stat{padding:17px 18px;border:1px solid #dfe8f1;border-radius:18px;background:linear-gradient(145deg,#fff,#f5fbfd);box-shadow:0 8px 24px rgba(5,29,100,.05)}.ir-stat i{color:#359AAD;font-size:20px}.ir-stat b{display:block;color:#051D64;font-size:20px;margin-top:5px}.ir-stat span{display:block;color:#6b778c;font-size:11px;margin-top:2px}.ir-gallery{display:grid;grid-template-columns:1.35fr .85fr .85fr;grid-template-rows:190px 190px;gap:14px}.ir-card{position:relative;overflow:hidden;border-radius:22px;background:#eaf4f9;box-shadow:0 12px 32px rgba(5,29,100,.10);min-height:180px}.ir-card.ir-large{grid-row:1/3}.ir-card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s ease}.ir-card:hover img{transform:scale(1.035)}.ir-card:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(4,26,62,.02) 30%,rgba(4,26,62,.88) 100%)}.ir-card-content{position:absolute;z-index:2;left:18px;right:18px;bottom:16px;color:#fff}.ir-card-content b{display:block;font-size:16px}.ir-card-content span{display:block;font-size:11px;color:#dbe7f7;margin-top:3px}.ir-label{position:absolute;z-index:3;left:14px;top:14px;display:inline-flex;align-items:center;gap:7px;padding:7px 10px;border-radius:999px;background:rgba(5,29,100,.9);color:#fff;font-size:10px;font-weight:800;backdrop-filter:blur(8px)}.ir-update{margin-top:16px;border:1px solid #dce8f0;border-radius:22px;background:linear-gradient(120deg,#f6fbfd,#edf7ff);padding:22px;display:grid;grid-template-columns:1.1fr .9fr auto;gap:18px;align-items:center}.ir-update-title{display:flex;gap:13px;align-items:center}.ir-update-icon{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:#dff4f5;color:#168b9b;font-size:22px}.ir-update h3{margin:0;color:#051D64;font-size:18px}.ir-update p{margin:4px 0 0;color:#68758b;font-size:12px}.ir-points{display:flex;gap:16px;flex-wrap:wrap;color:#334867;font-size:12px;font-weight:700}.ir-points span{display:flex;align-items:center;gap:6px}.ir-points i{color:#359AAD}.ir-update .btn{white-space:nowrap}.ir-note{margin-top:16px;padding:14px 18px;border-radius:15px;background:#051D64;color:#dce8ff;font-size:12px;display:flex;gap:10px;align-items:center}.ir-note i{color:#46ced8;font-size:18px}.ir-note b{color:#fff}@media(max-width:900px){.ir-head{grid-template-columns:1fr}.ir-gallery{grid-template-columns:1fr 1fr;grid-template-rows:280px 180px 180px}.ir-card.ir-large{grid-column:1/3;grid-row:auto}.ir-update{grid-template-columns:1fr}.ir-head h2{font-size:36px}}@media(max-width:640px){.industry-relations{padding:58px 0}.ir-head h2{font-size:32px}.ir-stats{grid-template-columns:1fr 1fr}.ir-gallery{display:grid;grid-template-columns:1fr;grid-template-rows:auto}.ir-card,.ir-card.ir-large{grid-column:auto;grid-row:auto;height:220px}.ir-card.ir-large{height:260px}.ir-points{display:grid;gap:8px}.ir-update{padding:18px}}
-    `;
+    industryStyle.textContent = `.industry-relations{padding:78px 0;background:#fff}.ir-head{display:grid;grid-template-columns:.9fr 1.1fr;gap:34px;align-items:end;margin-bottom:28px}.ir-kicker{display:inline-flex;gap:8px;align-items:center;color:#248da0;font-size:12px;font-weight:800;letter-spacing:.11em;text-transform:uppercase}.ir-head h2{font-size:44px;line-height:1.06;letter-spacing:-1.7px;color:#051D64;margin:12px 0 10px}.ir-head h2 span{color:#19afbf}.ir-head p{margin:0;color:#65728a;font-size:16px;max-width:680px}.ir-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.ir-stat{padding:17px 18px;border:1px solid #dfe8f1;border-radius:18px;background:linear-gradient(145deg,#fff,#f5fbfd);box-shadow:0 8px 24px rgba(5,29,100,.05)}.ir-stat i{color:#359AAD;font-size:20px}.ir-stat b{display:block;color:#051D64;font-size:20px;margin-top:5px}.ir-stat span{display:block;color:#6b778c;font-size:11px;margin-top:2px}.ir-gallery{display:grid;grid-template-columns:1.35fr .85fr .85fr;grid-template-rows:190px 190px;gap:14px}.ir-card{position:relative;overflow:hidden;border-radius:22px;background:#eaf4f9;box-shadow:0 12px 32px rgba(5,29,100,.10);min-height:180px}.ir-card.ir-large{grid-row:1/3}.ir-card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s ease}.ir-card:hover img{transform:scale(1.035)}.ir-card:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(4,26,62,.02) 30%,rgba(4,26,62,.88) 100%)}.ir-card-content{position:absolute;z-index:2;left:18px;right:18px;bottom:16px;color:#fff}.ir-card-content b{display:block;font-size:16px}.ir-card-content span{display:block;font-size:11px;color:#dbe7f7;margin-top:3px}.ir-label{position:absolute;z-index:3;left:14px;top:14px;display:inline-flex;align-items:center;gap:7px;padding:7px 10px;border-radius:999px;background:rgba(5,29,100,.9);color:#fff;font-size:10px;font-weight:800;backdrop-filter:blur(8px)}.ir-update{margin-top:16px;border:1px solid #dce8f0;border-radius:22px;background:linear-gradient(120deg,#f6fbfd,#edf7ff);padding:22px;display:grid;grid-template-columns:1.1fr .9fr auto;gap:18px;align-items:center}.ir-update-title{display:flex;gap:13px;align-items:center}.ir-update-icon{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:#dff4f5;color:#168b9b;font-size:22px}.ir-update h3{margin:0;color:#051D64;font-size:18px}.ir-update p{margin:4px 0 0;color:#68758b;font-size:12px}.ir-points{display:flex;gap:16px;flex-wrap:wrap;color:#334867;font-size:12px;font-weight:700}.ir-points span{display:flex;align-items:center;gap:6px}.ir-points i{color:#359AAD}.ir-update .btn{white-space:nowrap}.ir-note{margin-top:16px;padding:14px 18px;border-radius:15px;background:#051D64;color:#dce8ff;font-size:12px;display:flex;gap:10px;align-items:center}.ir-note i{color:#46ced8;font-size:18px}.ir-note b{color:#fff}@media(max-width:900px){.ir-head{grid-template-columns:1fr}.ir-gallery{grid-template-columns:1fr 1fr;grid-template-rows:280px 180px 180px}.ir-card.ir-large{grid-column:1/3;grid-row:auto}.ir-update{grid-template-columns:1fr}.ir-head h2{font-size:36px}}@media(max-width:640px){.industry-relations{padding:58px 0}.ir-head h2{font-size:32px}.ir-stats{grid-template-columns:1fr 1fr}.ir-gallery{display:grid;grid-template-columns:1fr;grid-template-rows:auto}.ir-card,.ir-card.ir-large{grid-column:auto;grid-row:auto;height:220px}.ir-card.ir-large{height:260px}.ir-points{display:grid;gap:8px}.ir-update{padding:18px}}`;
     document.head.appendChild(industryStyle);
-    const ir = document.createElement('section');
-    ir.id = 'industry-relations';
-    ir.className = 'industry-relations';
-    ir.innerHTML = `
-      <div class="container">
-        <div class="ir-head">
-          <div>
-            <span class="ir-kicker"><i class="bi bi-diagram-3"></i> Industry Relations</span>
-            <h2>Bridging Students with <span>Real Opportunities.</span></h2>
-            <p>CareerPilot is backed by CodeBegun's industry-focused ecosystem — connecting learning with expert interactions, hackathons, mock interviews, workshops and career opportunities.</p>
-          </div>
-          <div class="ir-stats">
-            <div class="ir-stat"><i class="bi bi-buildings"></i><b>80+</b><span>Hiring partners in the CodeBegun network</span></div>
-            <div class="ir-stat"><i class="bi bi-trophy"></i><b>14 LPA</b><span>Highest CodeBegun placement outcome</span></div>
-            <div class="ir-stat"><i class="bi bi-people"></i><b>Industry Experts</b><span>Mock interviews, guidance and practical feedback</span></div>
-            <div class="ir-stat"><i class="bi bi-lightning-charge"></i><b>Live Events</b><span>Hackathons, workshops and technical challenges</span></div>
-          </div>
-        </div>
-        <div class="ir-gallery">
-          <article class="ir-card ir-large"><img loading="lazy" src="https://www.codebegun.com/images/homepage1.jpeg" alt="CodeBegun industry learning session"><span class="ir-label"><i class="bi bi-megaphone"></i> Industry Expert Sessions</span><div class="ir-card-content"><b>Learn How Industry Thinks</b><span>Practical insights, career direction and real-world expectations.</span></div></article>
-          <article class="ir-card"><img loading="lazy" src="https://www.codebegun.com/images/hackathons/codebegun-techotsav-26.jpeg" alt="CodeBegun college hackathon"><span class="ir-label"><i class="bi bi-trophy"></i> College Hackathons</span><div class="ir-card-content"><b>Build. Compete. Get Noticed.</b><span>Hands-on technical events designed around real problem solving.</span></div></article>
-          <article class="ir-card"><img loading="lazy" src="https://www.codebegun.com/images/homepage3.jpeg" alt="Career readiness mock interview"><span class="ir-label"><i class="bi bi-person-video3"></i> Mock Interviews</span><div class="ir-card-content"><b>Practice Before the Real Interview</b><span>Structured preparation and feedback from experienced professionals.</span></div></article>
-          <article class="ir-card"><img loading="lazy" src="https://www.codebegun.com/images/homepage5.jpeg" alt="CodeBegun career workshop"><span class="ir-label"><i class="bi bi-easel2"></i> Career Workshops</span><div class="ir-card-content"><b>Industry-Aligned Skill Building</b><span>Workshops that connect classroom learning with career expectations.</span></div></article>
-          <article class="ir-card"><img loading="lazy" src="https://www.codebegun.com/images/homepage4.jpeg" alt="Students preparing for career opportunities"><span class="ir-label"><i class="bi bi-briefcase"></i> Career Opportunities</span><div class="ir-card-content"><b>Prepare for Internships & Placements</b><span>Build the skills and profile needed when opportunities arrive.</span></div></article>
-        </div>
-        <div class="ir-update">
-          <div class="ir-update-title"><div class="ir-update-icon"><i class="bi bi-calendar-event"></i></div><div><h3>Industry Relations Updates</h3><p>CareerPilot members stay connected to CodeBegun's career-focused activities and upcoming opportunities.</p></div></div>
-          <div class="ir-points"><span><i class="bi bi-check-circle-fill"></i> Expert Sessions</span><span><i class="bi bi-check-circle-fill"></i> Hackathons</span><span><i class="bi bi-check-circle-fill"></i> Mock Interviews</span><span><i class="bi bi-check-circle-fill"></i> Workshops</span></div>
-          <a class="btn btn-primary" data-track="readiness" data-location="industry-relations" href="https://platform.codebegun.com/careerpilot/join?tenant=codebegun">Join CareerPilot <i class="bi bi-arrow-right"></i></a>
-        </div>
-        <div class="ir-note"><i class="bi bi-rocket-takeoff"></i><span><b>Your career. Our industry network.</b> Learn the skills, understand industry expectations and be ready when the right opportunity comes.</span></div>
-      </div>`;
-    const anchor = expectationsSection || pricingSection;
-    anchor.parentNode.insertBefore(ir, anchor);
+    const ir = document.createElement('section'); ir.id = 'industry-relations'; ir.className = 'industry-relations';
+    ir.innerHTML = `<div class="container"><div class="ir-head"><div><span class="ir-kicker"><i class="bi bi-diagram-3"></i> Industry Relations</span><h2>Bridging Students with <span>Real Opportunities.</span></h2><p>CareerPilot is backed by CodeBegun's industry-focused ecosystem — connecting learning with expert interactions, hackathons, mock interviews, workshops and career opportunities.</p></div><div class="ir-stats"><div class="ir-stat"><i class="bi bi-buildings"></i><b>80+</b><span>Hiring partners in the CodeBegun network</span></div><div class="ir-stat"><i class="bi bi-trophy"></i><b>14 LPA</b><span>Highest CodeBegun placement outcome</span></div></div></div><div class="ir-gallery"><article class="ir-card ir-large"><img loading="lazy" src="https://www.codebegun.com/images/homepage1.jpeg" alt="Industry expert interaction"><span class="ir-label"><i class="bi bi-megaphone"></i> Industry Expert Sessions</span><div class="ir-card-content"><b>Learn Directly from Working Professionals</b><span>Understand real roles, expectations, skills and hiring perspectives.</span></div></article><article class="ir-card"><img loading="lazy" src="https://raw.githubusercontent.com/mynameiscod/cbwebsite/master/public/images/hackathons/codebegun-techotsav-26.jpeg" alt="CodeBegun hackathon"><span class="ir-label"><i class="bi bi-trophy"></i> Hackathons</span><div class="ir-card-content"><b>Build. Compete. Innovate.</b><span>Apply your skills through campus challenges and technical events.</span></div></article><article class="ir-card"><img loading="lazy" src="https://www.codebegun.com/images/homepage3.jpeg" alt="Career readiness mock interview"><span class="ir-label"><i class="bi bi-person-video3"></i> Mock Interviews</span><div class="ir-card-content"><b>Practice Before the Real Interview</b><span>Structured preparation and feedback from experienced professionals.</span></div></article><article class="ir-card"><img loading="lazy" src="https://www.codebegun.com/images/homepage5.jpeg" alt="CodeBegun career workshop"><span class="ir-label"><i class="bi bi-easel2"></i> Career Workshops</span><div class="ir-card-content"><b>Industry-Aligned Skill Building</b><span>Workshops that connect classroom learning with career expectations.</span></div></article><article class="ir-card"><img loading="lazy" src="https://www.codebegun.com/images/homepage4.jpeg" alt="Students preparing for career opportunities"><span class="ir-label"><i class="bi bi-briefcase"></i> Career Opportunities</span><div class="ir-card-content"><b>Prepare for Internships & Placements</b><span>Build the skills and profile needed when opportunities arrive.</span></div></article></div><div class="ir-update"><div class="ir-update-title"><div class="ir-update-icon"><i class="bi bi-calendar-event"></i></div><div><h3>Industry Relations Updates</h3><p>CareerPilot members stay connected to CodeBegun's career-focused activities and upcoming opportunities.</p></div></div><div class="ir-points"><span><i class="bi bi-check-circle-fill"></i> Expert Sessions</span><span><i class="bi bi-check-circle-fill"></i> Hackathons</span><span><i class="bi bi-check-circle-fill"></i> Mock Interviews</span><span><i class="bi bi-check-circle-fill"></i> Workshops</span></div><a class="btn btn-primary" data-track="readiness" data-location="industry-relations" href="https://platform.codebegun.com/careerpilot/join?tenant=codebegun">Join CareerPilot <i class="bi bi-arrow-right"></i></a></div><div class="ir-note"><i class="bi bi-rocket-takeoff"></i><span><b>Your career. Our industry network.</b> Learn the skills, understand industry expectations and be ready when the right opportunity comes.</span></div></div>`;
+    const anchor = expectationsSection || pricingSection; anchor.parentNode.insertBefore(ir, anchor);
   }
 
   document.addEventListener('click', e => {
-    const el = e.target.closest('[data-track]'); if(!el) return;
-    const kind = el.dataset.track; const href = el.getAttribute('href') || '';
-    if(kind==='readiness') cpTrack('career_readiness_cta_click',{standard:true,name:'Lead'},{cta_location:el.dataset.location||'unknown',destination:href});
-    if(kind==='login') cpTrack('login_click',{standard:false,name:'LoginClick'},{destination:href});
-    if(kind==='membership') cpTrack('membership_cta_click',{standard:false,name:'MembershipCTAClick'},{plan:'CareerPilot Annual',value:1999,currency:'INR',destination:href});
+    const el = e.target.closest('a,button'); if(!el) return;
+    const kind = el.dataset.track || '';
+    const href = el.getAttribute('href') || '';
+    const locationName = el.dataset.location || el.dataset.ctaLocation || el.closest('section')?.id || 'page';
+    const text = (el.textContent || '').trim().replace(/\s+/g,' ').slice(0,120);
+
+    if(kind==='readiness' || kind==='career-readiness') {
+      cpTrack('career_readiness_cta_click',{standard:true,name:'Lead'},{cta_location:locationName,cta_text:text,destination:href});
+    }
+    if(kind==='login') {
+      cpTrack('login_click',{standard:false,name:'LoginClick'},{cta_location:locationName,destination:href});
+    }
+    if(kind==='membership') {
+      const purchaseIntent = {plan:'CareerPilot Annual',value:1999,currency:'INR',cta_location:locationName,cta_text:text,destination:href};
+      fireGA('membership_cta_click',{...basePayload(),...purchaseIntent});
+      fireMeta('track','InitiateCheckout',{...basePayload(),...purchaseIntent,content_name:'CareerPilot Annual Membership'});
+      fireMeta('trackCustom','MembershipCTAClick',{...basePayload(),...purchaseIntent});
+    }
+    if(href.startsWith('#')) cpTrack('navigation_click',{standard:false,name:'NavigationClick'},{link_text:text,destination:href});
+    if(/^https?:\/\//.test(href) && !href.includes(location.hostname) && !kind) cpTrack('outbound_click',{standard:false,name:'OutboundClick'},{link_text:text,destination:href});
   });
-  if(pricingSection){ let fired=false; const io=new IntersectionObserver(es=>{es.forEach(x=>{if(x.isIntersecting&&!fired){fired=true;cpTrack('pricing_view',{standard:true,name:'ViewContent'},{content_name:'CareerPilot Annual Membership',value:1999,currency:'INR'});io.disconnect();}})},{threshold:.35});io.observe(pricingSection);}
+
+  const observeSection = (el, name, extra={}) => {
+    if(!el || !('IntersectionObserver' in window)) return;
+    let fired=false;
+    const io=new IntersectionObserver(entries=>entries.forEach(entry=>{
+      if(entry.isIntersecting && !fired){ fired=true; cpTrack('section_view',{standard:false,name:'SectionView'},{section_name:name,...extra}); io.disconnect(); }
+    }),{threshold:.35});
+    io.observe(el);
+  };
+  document.querySelectorAll('main section[id]').forEach(el=>observeSection(el,el.id));
+  observeSection(document.querySelector('#industry-relations'),'industry-relations');
+  observeSection(document.querySelector('#expectations-gap'),'expectations-gap');
+
+  if(pricingSection){
+    let fired=false;
+    const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting&&!fired){
+      fired=true;
+      const payload={...basePayload(),content_name:'CareerPilot Annual Membership',plan:'CareerPilot Annual',value:1999,currency:'INR'};
+      fireGA('pricing_view',payload);
+      fireMeta('track','ViewContent',payload);
+      io.disconnect();
+    }}),{threshold:.35}); io.observe(pricingSection);
+  }
+
+  const reached = new Set();
+  const onScroll = () => {
+    const doc = document.documentElement;
+    const max = doc.scrollHeight - innerHeight;
+    if(max <= 0) return;
+    const pct = Math.round((scrollY / max) * 100);
+    [25,50,75,90].forEach(mark=>{ if(pct>=mark && !reached.has(mark)){ reached.add(mark); cpTrack(`scroll_depth_${mark}`,{standard:false,name:'ScrollDepth'},{percent:mark}); } });
+  };
+  addEventListener('scroll',onScroll,{passive:true});
+
+  setTimeout(()=>cpTrack('engaged_30_seconds',{standard:false,name:'Engaged30Seconds'},{seconds:30}),30000);
 })();
