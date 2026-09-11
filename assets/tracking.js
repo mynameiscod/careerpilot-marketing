@@ -1,4 +1,85 @@
 (() => {
+  const attributionKeys = [
+    'utm_source',
+    'utm_medium',
+    'utm_campaign',
+    'utm_content',
+    'utm_term',
+    'gclid',
+    'fbclid'
+  ];
+
+  const getStoredAttribution = () => {
+    const values = {};
+    attributionKeys.forEach(key => {
+      const value = sessionStorage.getItem(key);
+      if (value) values[key] = value;
+    });
+    return values;
+  };
+
+  const captureAttribution = () => {
+    const params = new URLSearchParams(window.location.search);
+
+    attributionKeys.forEach(key => {
+      const value = params.get(key);
+      if (value) sessionStorage.setItem(key, value);
+    });
+
+    if (!sessionStorage.getItem('cp_landing_page')) {
+      const landingPage = document.body?.dataset?.page ||
+        (window.location.pathname === '/' ? 'home' : window.location.pathname.replace(/^\/+|\/+$/g, ''));
+      if (landingPage) sessionStorage.setItem('cp_landing_page', landingPage);
+    }
+
+    if (!sessionStorage.getItem('cp_entry_path')) {
+      sessionStorage.setItem('cp_entry_path', window.location.pathname || '/');
+    }
+  };
+
+  const addAttributionToPlatformUrl = href => {
+    if (!href) return href;
+
+    let url;
+    try {
+      url = new URL(href, window.location.href);
+    } catch {
+      return href;
+    }
+
+    if (url.hostname !== 'platform.codebegun.com' || !url.pathname.startsWith('/careerpilot')) {
+      return href;
+    }
+
+    const attribution = getStoredAttribution();
+    Object.entries(attribution).forEach(([key, value]) => {
+      url.searchParams.set(key, value);
+    });
+
+    const landingPage = sessionStorage.getItem('cp_landing_page');
+    const entryPath = sessionStorage.getItem('cp_entry_path');
+    if (landingPage) url.searchParams.set('landing_page', landingPage);
+    if (entryPath) url.searchParams.set('entry_path', entryPath);
+
+    return url.toString();
+  };
+
+  captureAttribution();
+  window.addAttributionToPlatformUrl = addAttributionToPlatformUrl;
+
+  if (!window.__cpAttributionClickHandlerInstalled) {
+    window.__cpAttributionClickHandlerInstalled = true;
+    document.addEventListener('click', event => {
+      const anchor = event.target.closest?.('a[href]');
+      if (!anchor) return;
+
+      const decoratedHref = addAttributionToPlatformUrl(anchor.getAttribute('href'));
+      if (decoratedHref && decoratedHref !== anchor.getAttribute('href')) {
+        anchor.setAttribute('href', decoratedHref);
+      }
+    }, true);
+  }
+
   const core = document.createElement('script');
   core.src = '/assets/tracking-core.js?v=20260911-1';
   core.onload = () => {
