@@ -1,6 +1,15 @@
 (() => {
+  // PostHog (EU cloud) — shared across every CareerPilot marketing page.
+  !function(t,e){var o,n,p,r;e.__SV||(window.posthog&&window.posthog.__loaded)||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}p||((p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",p.onerror=function(){p=null},(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r));var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],Object.defineProperty(u,"toString",{configurable:!0,enumerable:!0,writable:!0,value:function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e}}),Object.defineProperty(u.people,"toString",{configurable:!0,enumerable:!0,writable:!0,value:function(){return u.toString(1)+".people (stub)"}}),o="su ru ou lu hu init Au Fu Eu Pu Nu zl Ru ju Tu Uu Wu Vu capture getExtension Ou iu Qu calculateEventProperties Zu register register_once register_for_session unregister unregister_for_session Xu Mu Ju getFeatureFlag getFeatureFlagPayload getFeatureFlagResult getAllFeatureFlags isFeatureEnabled reloadFeatureFlags updateFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey displaySurvey cancelPendingSurvey canRenderSurvey canRenderSurveyAsync th identify setPersonProperties unsetPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset eh shutdown setIdentity clearIdentity get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException addExceptionStep captureLog startExceptionAutocapture stopExceptionAutocapture loadToolbar get_property getSessionProperty Ku zu createPersonProfile setInternalOrTestUser Yu cu du opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing get_explicit_consent_status is_capturing clear_opt_in_out_capturing Bu debug Ul $s getPageViewId captureTraceFeedback captureTraceMetric Su".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+  posthog.init('phc_qUoM5D37t2VSVWGrYKhRdbwFkirc2QTiCiNz2eJ3QtEi', {
+    api_host: 'https://eu.i.posthog.com',
+    defaults: '2026-05-30',
+    person_profiles: 'identified_only'
+  });
+
   const fireGA = (name, params={}) => { if (typeof window.gtag === 'function') window.gtag('event', name, params); };
   const fireMeta = (type, name, params={}) => { if (typeof window.fbq === 'function') window.fbq(type, name, params); };
+  const firePostHog = (name, params={}) => { if (window.posthog && typeof window.posthog.capture === 'function') window.posthog.capture(name, params); };
   const page = document.body?.dataset?.page || (location.pathname === '/' ? 'home' : location.pathname);
   const params = new URLSearchParams(location.search);
   ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(k=>{ const v=params.get(k); if(v) sessionStorage.setItem(k,v); });
@@ -10,9 +19,9 @@
     const payload = { ...basePayload(), ...extra };
     fireGA(eventName,payload);
     if(metaName) fireMeta(metaName.standard ? 'track' : 'trackCustom', metaName.name, payload);
+    firePostHog(eventName,payload);
   };
 
-  // Landing-page view for campaign comparison in GA4/Meta.
   cpTrack('landing_page_view',{standard:false,name:'LandingPageView'},{landing_page_variant:page});
 
   const pricingSection = document.querySelector('#pricing');
@@ -110,9 +119,12 @@
     }
     if(kind==='membership') {
       const purchaseIntent = {plan:'CareerPilot Annual',value:1999,currency:'INR',cta_location:locationName,cta_text:text,destination:href};
-      fireGA('membership_cta_click',{...basePayload(),...purchaseIntent});
-      fireMeta('track','InitiateCheckout',{...basePayload(),...purchaseIntent,content_name:'CareerPilot Annual Membership'});
-      fireMeta('trackCustom','MembershipCTAClick',{...basePayload(),...purchaseIntent});
+      const payload = {...basePayload(),...purchaseIntent};
+      fireGA('membership_cta_click',payload);
+      fireMeta('track','InitiateCheckout',{...payload,content_name:'CareerPilot Annual Membership'});
+      fireMeta('trackCustom','MembershipCTAClick',payload);
+      firePostHog('membership_cta_click',payload);
+      firePostHog('initiate_checkout',{...payload,content_name:'CareerPilot Annual Membership'});
     }
     if(href.startsWith('#')) cpTrack('navigation_click',{standard:false,name:'NavigationClick'},{link_text:text,destination:href});
     if(/^https?:\/\//.test(href) && !href.includes(location.hostname) && !kind) cpTrack('outbound_click',{standard:false,name:'OutboundClick'},{link_text:text,destination:href});
@@ -137,6 +149,7 @@
       const payload={...basePayload(),content_name:'CareerPilot Annual Membership',plan:'CareerPilot Annual',value:1999,currency:'INR'};
       fireGA('pricing_view',payload);
       fireMeta('track','ViewContent',payload);
+      firePostHog('pricing_view',payload);
       io.disconnect();
     }}),{threshold:.35}); io.observe(pricingSection);
   }
