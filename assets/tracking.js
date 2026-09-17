@@ -1,114 +1,43 @@
 (() => {
-  const attributionKeys = [
-    'utm_source',
-    'utm_medium',
-    'utm_campaign',
-    'utm_content',
-    'utm_term',
-    'gclid',
-    'fbclid'
-  ];
-
-  const getStoredAttribution = () => {
-    const values = {};
-    attributionKeys.forEach(key => {
-      const value = sessionStorage.getItem(key);
-      if (value) values[key] = value;
-    });
-    return values;
-  };
-
+  const attributionKeys = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','gclid','fbclid'];
+  const getStoredAttribution = () => { const values={}; attributionKeys.forEach(key=>{const value=sessionStorage.getItem(key);if(value)values[key]=value;}); return values; };
   const captureAttribution = () => {
-    const params = new URLSearchParams(window.location.search);
-
-    attributionKeys.forEach(key => {
-      const value = params.get(key);
-      if (value) sessionStorage.setItem(key, value);
-    });
-
-    if (!sessionStorage.getItem('cp_landing_page')) {
-      const landingPage = document.body?.dataset?.page ||
-        (window.location.pathname === '/' ? 'home' : window.location.pathname.replace(/^\/+|\/+$/g, ''));
-      if (landingPage) sessionStorage.setItem('cp_landing_page', landingPage);
-    }
-
-    if (!sessionStorage.getItem('cp_entry_path')) {
-      sessionStorage.setItem('cp_entry_path', window.location.pathname || '/');
-    }
+    const params=new URLSearchParams(window.location.search);
+    attributionKeys.forEach(key=>{const value=params.get(key);if(value)sessionStorage.setItem(key,value);});
+    if(!sessionStorage.getItem('cp_landing_page')){const landingPage=document.body?.dataset?.page||(window.location.pathname==='/'?'home':window.location.pathname.replace(/^\/+|\/+$/g,''));if(landingPage)sessionStorage.setItem('cp_landing_page',landingPage);}
+    if(!sessionStorage.getItem('cp_entry_path'))sessionStorage.setItem('cp_entry_path',window.location.pathname||'/');
   };
-
   const addAttributionToPlatformUrl = href => {
-    if (!href) return href;
+    if(!href)return href; let url; try{url=new URL(href,window.location.href);}catch{return href;}
+    if(url.hostname!=='platform.codebegun.com'||!url.pathname.startsWith('/careerpilot'))return href;
+    Object.entries(getStoredAttribution()).forEach(([key,value])=>url.searchParams.set(key,value));
+    const landingPage=sessionStorage.getItem('cp_landing_page'),entryPath=sessionStorage.getItem('cp_entry_path');
+    if(landingPage)url.searchParams.set('landing_page',landingPage); if(entryPath)url.searchParams.set('entry_path',entryPath); return url.toString();
+  };
+  captureAttribution(); window.addAttributionToPlatformUrl=addAttributionToPlatformUrl;
+  if(!window.__cpAttributionClickHandlerInstalled){window.__cpAttributionClickHandlerInstalled=true;document.addEventListener('click',event=>{const anchor=event.target.closest?.('a[href]');if(!anchor)return;const decoratedHref=addAttributionToPlatformUrl(anchor.getAttribute('href'));if(decoratedHref&&decoratedHref!==anchor.getAttribute('href'))anchor.setAttribute('href',decoratedHref);},true);}
 
-    let url;
-    try {
-      url = new URL(href, window.location.href);
-    } catch {
-      return href;
+  const core=document.createElement('script');
+  core.src='/assets/tracking-core.js?v=20260911-1';
+  core.onload=()=>{
+    const pricing=document.querySelector('#pricing'); if(!pricing)return;
+
+    if(!document.querySelector('#careerpilot-ecosystem')){
+      const ecosystem=document.createElement('section');
+      ecosystem.id='careerpilot-ecosystem'; ecosystem.className='cp-ecosystem';
+      ecosystem.innerHTML=`<div class="container"><div class="cp-eco-head"><span class="badge"><i class="bi bi-diagram-3"></i> CareerPilot AI Career Readiness Platform</span><h2>From Student Assessment to <span>Placement Intelligence</span></h2><p>CareerPilot connects assessment, skill development, career preparation and placement readiness into one guided journey for students and colleges.</p></div><div class="cp-eco-panel"><div class="cp-eco-label"><i class="bi bi-person-workspace"></i><span>STUDENT CAREER JOURNEY</span></div><div class="cp-eco-flow"><div class="cp-eco-step"><i class="bi bi-person-badge"></i><b>Career Profile</b></div><i class="bi bi-arrow-right cp-eco-arrow"></i><div class="cp-eco-step"><i class="bi bi-clipboard2-data"></i><b>Assessment</b></div><i class="bi bi-arrow-right cp-eco-arrow"></i><div class="cp-eco-split"><span><i class="bi bi-lightning"></i> Current Skills</span><span><i class="bi bi-bullseye"></i> Target Career</span></div><i class="bi bi-arrow-right cp-eco-arrow"></i><div class="cp-eco-step key"><i class="bi bi-search"></i><b>Skill Gap</b></div><i class="bi bi-arrow-right cp-eco-arrow"></i><div class="cp-eco-step key"><i class="bi bi-map"></i><b>Personalized Roadmap</b></div></div><div class="cp-eco-learning"><div class="cp-eco-concept"><i class="bi bi-lightbulb"></i><b>Concepts</b></div><div class="cp-eco-actions"><span><i class="bi bi-play-circle"></i>Learn</span><span><i class="bi bi-pencil-square"></i>Practice</span><span><i class="bi bi-code-slash"></i>Code</span><span><i class="bi bi-kanban"></i>Project</span><span><i class="bi bi-check2-square"></i>Assess</span><span><i class="bi bi-journal-bookmark"></i>Resources</span></div><div class="cp-eco-progress"><span><i class="bi bi-patch-check"></i><b>Concept Mastery</b></span><i class="bi bi-arrow-right"></i><span><i class="bi bi-calendar2-check"></i><b>Daily Missions</b></span></div></div><div class="cp-eco-career"><div><i class="bi bi-chat-dots"></i><b>Communication</b></div><div><i class="bi bi-person-vcard"></i><b>Career Profile</b><small>Resume • LinkedIn • GitHub</small></div><div><i class="bi bi-person-video3"></i><b>Interview Prep</b></div></div><div class="cp-eco-outcomes"><div class="cp-eco-step key"><i class="bi bi-speedometer2"></i><b>Career Readiness Score</b></div><i class="bi bi-arrow-right"></i><div class="cp-eco-step"><i class="bi bi-buildings"></i><b>Company Readiness</b></div><i class="bi bi-arrow-right"></i><div class="cp-eco-step"><i class="bi bi-briefcase"></i><b>Jobs / Drives / Referrals</b></div><i class="bi bi-arrow-right"></i><div class="cp-eco-step placement"><i class="bi bi-trophy"></i><b>PLACEMENT</b></div></div></div><div class="cp-eco-panel college"><div class="cp-eco-label"><i class="bi bi-mortarboard"></i><span>COLLEGE / TPO</span></div><div class="cp-college-grid"><div><i class="bi bi-speedometer"></i><b>Readiness Dashboard</b><span>Skill Gap Analytics</span><span>Branch Comparison</span></div><div><i class="bi bi-graph-up"></i><b>Student Analytics</b><span>At-Risk Students</span><span>Engagement</span></div><div><i class="bi bi-building-check"></i><b>Placement Console</b><span>Drives & Eligibility</span><span>Company Preparation</span></div></div><div class="cp-intelligence"><i class="bi bi-stars"></i><div><small>CAREERPILOT FOR INSTITUTIONS</small><b>Placement Intelligence</b></div></div></div></div>`;
+      const ecoStyle=document.createElement('style');
+      ecoStyle.textContent=`.cp-ecosystem{padding:78px 0;background:linear-gradient(180deg,#f7fbfe,#eef7fb)}.cp-eco-head{text-align:center;max-width:850px;margin:0 auto 34px}.cp-eco-head h2{font-size:40px;line-height:1.08;letter-spacing:-1.5px;color:#051D64;margin:14px 0 12px}.cp-eco-head h2 span{color:#359AAD}.cp-eco-head p{color:#66728a;margin:0 auto}.cp-eco-panel{background:#fff;border:1px solid #dce6ef;border-radius:24px;padding:26px;box-shadow:0 14px 38px rgba(5,29,100,.07);margin-top:18px}.cp-eco-label{display:flex;align-items:center;gap:9px;color:#051D64;font-size:12px;font-weight:800;letter-spacing:.5px;margin-bottom:20px}.cp-eco-label i{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:#e8f5fa;color:#359AAD;font-size:17px}.cp-eco-flow,.cp-eco-outcomes{display:flex;align-items:center;justify-content:center;gap:10px}.cp-eco-step{min-height:74px;min-width:128px;padding:13px 12px;border:1px solid #dfe8f1;border-radius:15px;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#051D64}.cp-eco-step i{font-size:21px;color:#359AAD;margin-bottom:5px}.cp-eco-step b{font-size:12px}.cp-eco-step.key{background:#edf8fa;border-color:#b9dfe5}.cp-eco-step.placement{background:#051D64;color:#fff;border-color:#051D64}.cp-eco-step.placement i{color:#ffd34d}.cp-eco-arrow,.cp-eco-outcomes>i{color:#8ca2bd}.cp-eco-split{display:grid;gap:6px}.cp-eco-split span{padding:8px 10px;border-radius:10px;background:#f5f8fc;color:#40516f;font-size:11px;font-weight:700;white-space:nowrap}.cp-eco-split i{color:#359AAD}.cp-eco-learning{margin:20px auto;padding:20px;border-radius:20px;background:#f7fafc;border:1px solid #e5edf3;max-width:970px}.cp-eco-concept{text-align:center;color:#051D64;margin-bottom:14px}.cp-eco-concept i{color:#359AAD;margin-right:7px}.cp-eco-actions{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}.cp-eco-actions span{display:flex;flex-direction:column;align-items:center;gap:5px;padding:11px 6px;background:#fff;border:1px solid #e0e9f1;border-radius:12px;color:#40516f;font-size:11px;font-weight:700}.cp-eco-actions i{color:#359AAD;font-size:18px}.cp-eco-progress{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:15px}.cp-eco-progress span{display:flex;align-items:center;gap:7px;color:#051D64;font-size:12px}.cp-eco-progress i{color:#359AAD}.cp-eco-career{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:800px;margin:0 auto 20px}.cp-eco-career>div{text-align:center;padding:14px;border-radius:14px;border:1px solid #dfe8f1}.cp-eco-career i{display:block;color:#359AAD;font-size:21px}.cp-eco-career b{display:block;color:#051D64;font-size:12px;margin:4px}.cp-eco-career small{color:#66728a;font-size:10px}.college{margin-top:22px}.cp-college-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.cp-college-grid>div{padding:18px;border-radius:16px;background:#f8fbfd;border:1px solid #e1eaf1;text-align:center}.cp-college-grid i{display:block;font-size:24px;color:#359AAD}.cp-college-grid b{display:block;color:#051D64;margin:7px 0;font-size:13px}.cp-college-grid span{display:block;color:#66728a;font-size:11px;margin:4px}.cp-intelligence{margin:18px auto 0;max-width:420px;border-radius:16px;padding:16px 20px;background:linear-gradient(120deg,#051D64,#0d4b9c);color:#fff;display:flex;align-items:center;justify-content:center;gap:12px;text-align:left}.cp-intelligence>i{font-size:25px;color:#ffd34d}.cp-intelligence small{display:block;color:#bcd2f3;font-size:9px;font-weight:800;letter-spacing:.7px}.cp-intelligence b{display:block;font-size:18px}@media(max-width:980px){.cp-eco-flow,.cp-eco-outcomes{flex-wrap:wrap}.cp-eco-actions{grid-template-columns:repeat(3,1fr)}}@media(max-width:640px){.cp-ecosystem{padding:58px 0}.cp-eco-head h2{font-size:31px}.cp-eco-panel{padding:18px}.cp-eco-flow,.cp-eco-outcomes{flex-direction:column}.cp-eco-arrow,.cp-eco-outcomes>i{transform:rotate(90deg)}.cp-eco-step{width:100%}.cp-eco-split{width:100%;grid-template-columns:1fr 1fr}.cp-eco-actions{grid-template-columns:repeat(2,1fr)}.cp-eco-progress{flex-direction:column}.cp-eco-progress>i{transform:rotate(90deg)}.cp-eco-career,.cp-college-grid{grid-template-columns:1fr}.cp-eco-career{gap:8px}}`;
+      document.head.appendChild(ecoStyle);
+      const inside=document.querySelector('#inside');
+      if(inside) inside.insertAdjacentElement('beforebegin',ecosystem); else pricing.insertAdjacentElement('beforebegin',ecosystem);
     }
 
-    if (url.hostname !== 'platform.codebegun.com' || !url.pathname.startsWith('/careerpilot')) {
-      return href;
-    }
-
-    const attribution = getStoredAttribution();
-    Object.entries(attribution).forEach(([key, value]) => {
-      url.searchParams.set(key, value);
-    });
-
-    const landingPage = sessionStorage.getItem('cp_landing_page');
-    const entryPath = sessionStorage.getItem('cp_entry_path');
-    if (landingPage) url.searchParams.set('landing_page', landingPage);
-    if (entryPath) url.searchParams.set('entry_path', entryPath);
-
-    return url.toString();
+    const button=pricing.querySelector('[data-track="membership"]'); if(button)button.innerHTML='Get CareerPilot — ₹1,999 <i class="bi bi-arrow-right"></i>';
+    const trust=pricing.querySelector('.cp-trust-row'); if(trust)trust.innerHTML=`<div><i class="bi bi-shield-lock"></i><b>Secure Payment</b><span>Protected checkout</span></div><div><i class="bi bi-calendar-check"></i><b>12 Months Access</b><span>One-time payment</span></div><div><i class="bi bi-headset"></i><b>Student Support</b><span>Help when you need it</span></div>`;
+    const reassurance=pricing.querySelector('.cp-gift'); if(reassurance)reassurance.innerHTML='<i class="bi bi-check-circle"></i><span><b>₹1,999 one-time</b> • 12 months access • No monthly subscription</span>';
+    const bottom=pricing.querySelector('.cp-price-bottom'); if(bottom)bottom.innerHTML=`<div><i class="bi bi-buildings"></i><span><b>Built by CodeBegun</b><span>Career & technology learning ecosystem</span></span></div><div><i class="bi bi-people"></i><span><b>Industry-Designed</b><span>Built around employability skills</span></span></div><div><i class="bi bi-signpost-split"></i><span><b>Personalized Journey</b><span>Assessment → gaps → roadmap → action</span></span></div><div><i class="bi bi-calendar-check"></i><span><b>12 Months Access</b><span>One membership, full CareerPilot journey</span></span></div>`;
+    const style=document.createElement('style');style.textContent=`.cp-trust-row span{display:block;color:#66728a;font-size:9px;line-height:1.35;margin-top:3px}.cp-gift b{color:#051D64}.cp-price-right>a.btn+ .cp-trust-row{margin-top:16px}`;document.head.appendChild(style);
   };
-
-  captureAttribution();
-  window.addAttributionToPlatformUrl = addAttributionToPlatformUrl;
-
-  if (!window.__cpAttributionClickHandlerInstalled) {
-    window.__cpAttributionClickHandlerInstalled = true;
-    document.addEventListener('click', event => {
-      const anchor = event.target.closest?.('a[href]');
-      if (!anchor) return;
-
-      const decoratedHref = addAttributionToPlatformUrl(anchor.getAttribute('href'));
-      if (decoratedHref && decoratedHref !== anchor.getAttribute('href')) {
-        anchor.setAttribute('href', decoratedHref);
-      }
-    }, true);
-  }
-
-  const core = document.createElement('script');
-  core.src = '/assets/tracking-core.js?v=20260911-1';
-  core.onload = () => {
-    const pricing = document.querySelector('#pricing');
-    if (!pricing) return;
-
-    const button = pricing.querySelector('[data-track="membership"]');
-    if (button) button.innerHTML = 'Get CareerPilot — ₹1,999 <i class="bi bi-arrow-right"></i>';
-
-    const trust = pricing.querySelector('.cp-trust-row');
-    if (trust) trust.innerHTML = `
-      <div><i class="bi bi-shield-lock"></i><b>Secure Payment</b><span>Protected checkout</span></div>
-      <div><i class="bi bi-calendar-check"></i><b>12 Months Access</b><span>One-time payment</span></div>
-      <div><i class="bi bi-headset"></i><b>Student Support</b><span>Help when you need it</span></div>`;
-
-    const reassurance = pricing.querySelector('.cp-gift');
-    if (reassurance) reassurance.innerHTML = '<i class="bi bi-check-circle"></i><span><b>₹1,999 one-time</b> • 12 months access • No monthly subscription</span>';
-
-    const bottom = pricing.querySelector('.cp-price-bottom');
-    if (bottom) bottom.innerHTML = `
-      <div><i class="bi bi-buildings"></i><span><b>Built by CodeBegun</b><span>Career & technology learning ecosystem</span></span></div>
-      <div><i class="bi bi-people"></i><span><b>Industry-Designed</b><span>Built around employability skills</span></span></div>
-      <div><i class="bi bi-signpost-split"></i><span><b>Personalized Journey</b><span>Assessment → gaps → roadmap → action</span></span></div>
-      <div><i class="bi bi-calendar-check"></i><span><b>12 Months Access</b><span>One membership, full CareerPilot journey</span></span></div>`;
-
-    const style = document.createElement('style');
-    style.textContent = `.cp-trust-row span{display:block;color:#66728a;font-size:9px;line-height:1.35;margin-top:3px}.cp-gift b{color:#051D64}.cp-price-right>a.btn+ .cp-trust-row{margin-top:16px}`;
-    document.head.appendChild(style);
-  };
-  core.onerror = () => console.error('CareerPilot tracking core failed to load');
-  document.head.appendChild(core);
+  core.onerror=()=>console.error('CareerPilot tracking core failed to load'); document.head.appendChild(core);
 })();
