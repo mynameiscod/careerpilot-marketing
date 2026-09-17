@@ -1,0 +1,108 @@
+/* CareerPilot — "Everything Inside CareerPilot" platform features (homepage #inside) */
+.fx{--fx-navy:#051D64;--fx-teal:#359AAD;--fx-blue:#1570EF;position:relative;padding:84px 0 56px;overflow:hidden;background:linear-gradient(180deg,#f7fbff 0%,#eef6fd 55%,#f5f9fd 100%)}
+.fx:before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 12% 18%,rgba(53,154,173,.10),transparent 30%),radial-gradient(circle at 88% 12%,rgba(21,112,239,.08),transparent 28%),radial-gradient(circle at 50% 100%,rgba(21,112,239,.06),transparent 40%)}
+.fx-shell{position:relative;width:min(1320px,calc(100% - 36px));margin:0 auto}
+
+/* Header */
+.fx-head{position:relative;max-width:860px;margin:0 auto 40px;text-align:center}
+.fx-pill{display:inline-flex;align-items:center;gap:9px;padding:9px 18px;border:1px solid #d6e3f7;border-radius:999px;background:rgba(255,255,255,.8);color:#1a3478;font-size:13.5px;font-weight:600;box-shadow:0 6px 18px rgba(5,29,100,.06)}
+.fx-pill i{color:var(--fx-blue);font-size:15px}
+.fx-head h2{margin:18px 0 10px;font-size:clamp(34px,4.4vw,58px);line-height:1.05;letter-spacing:-2px;color:#071542;font-weight:800}
+.fx-head h2 span{background:linear-gradient(95deg,#1d4ed8 0%,var(--fx-blue) 50%,#1a8fd6 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.fx-head p{margin:0;font-size:clamp(16px,1.35vw,19px);color:#4f6285}
+
+/* Decorations */
+.fx-note{position:absolute;z-index:1;font-family:Caveat,'Segoe Print',cursive;font-weight:600;line-height:.98;color:#1e3a8a;white-space:nowrap;pointer-events:none}
+.fx-note svg{display:block;fill:none;stroke:#1e3a8a;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.fx-note--left{left:3%;top:-6px;font-size:22px;transform:rotate(-10deg)}
+.fx-note--left svg{width:30px;height:40px;margin:4px 0 0 64px}
+.fx-note--right{right:1%;top:-22px;font-size:18px;transform:rotate(-8deg)}
+.fx-note--right svg{width:40px;height:40px;margin:2px 0 0 38px}
+.fx-plane{position:absolute;right:7%;top:88px;width:170px;height:90px;pointer-events:none}
+.fx-plane svg{position:absolute;inset:0;width:100%;height:100%;fill:none;stroke:#1d4ed8;stroke-width:2.5;stroke-dasharray:7 8;stroke-linecap:round}
+.fx-plane i{position:absolute;right:0;top:0;font-size:46px;color:#3b82f6;transform:rotate(-8deg);filter:drop-shadow(0 8px 12px rgba(37,99,235,.25))}
+.fx-dots{position:absolute;width:120px;height:90px;pointer-events:none;background-image:radial-gradient(rgba(37,99,235,.28) 1.5px,transparent 1.8px);background-size:15px 15px;opacity:.55}
+.fx-dots--tr{right:14%;top:-10px}
+.fx-dots--br{right:-28px;bottom:120px;width:40px;height:220px}
+
+/* Grid: 24 columns → row 1 is 9 / 7 / 8, rows 2–3 are 7 / 7 / 10 */
+.fx-grid{position:relative;z-index:2;display:grid;grid-template-columns:repeat(24,minmax(0,1fr));gap:18px}
+.fx-w7{grid-column:span 7}.fx-w8{grid-column:span 8}.fx-w9{grid-column:span 9}.fx-w10{grid-column:span 10}
+
+/* Card */
+.fx-card{position:relative;isolation:isolate;display:flex;flex-direction:column;align-items:flex-start;min-height:176px;padding:24px 26px 22px;overflow:hidden;border:1px solid rgba(215,227,244,.9);border-radius:20px;background:rgba(255,255,255,.88);box-shadow:0 10px 30px rgba(5,29,100,.06);transition:transform .3s cubic-bezier(.2,.7,.2,1),box-shadow .3s}
+.fx-card:hover{transform:translateY(-4px);box-shadow:0 18px 44px rgba(5,29,100,.11)}
+.fx-card:after{content:'';position:absolute;z-index:-1;right:-34px;bottom:-40px;width:130px;height:130px;border-radius:50%;background:var(--fx-blob,rgba(21,112,239,.06))}
+.fx-card h3{margin:14px 0 6px;font-size:20px;line-height:1.2;letter-spacing:-.4px;color:#0a1b55;font-weight:800}
+.fx-card p{max-width:300px;margin:0 0 16px;font-size:14.5px;line-height:1.5;color:#5b6b88}
+.fx-link{display:inline-flex;align-items:center;gap:9px;margin-top:auto;font-size:14px;font-weight:700;color:#1d4ed8}
+.fx-link i{font-size:15px;transition:transform .25s}
+.fx-link:hover i,.fx-card:hover .fx-link i{transform:translateX(4px)}
+
+.fx-icon{position:relative;display:grid;place-items:center;width:58px;height:58px;border-radius:16px;font-size:26px;background:var(--fx-ic-bg);color:var(--fx-ic);box-shadow:0 8px 18px var(--fx-ic-sh,rgba(5,29,100,.06))}
+.fx-spark{position:absolute;left:66px;top:-10px;width:22px;height:18px;fill:none;stroke:var(--fx-ic);stroke-width:2;stroke-linecap:round}
+.ic-blue{--fx-ic:#2563eb;--fx-ic-bg:linear-gradient(145deg,#eaf2ff,#d9e7ff)}
+.ic-green{--fx-ic:#0f9f86;--fx-ic-bg:linear-gradient(145deg,#e6f8f3,#d3f1e8)}
+.ic-orange{--fx-ic:#f28a15;--fx-ic-bg:linear-gradient(145deg,#fff2e2,#ffe3c4)}
+.ic-purple{--fx-ic:#7c3aed;--fx-ic-bg:linear-gradient(145deg,#f1ebff,#e4d9ff)}
+.ic-teal{--fx-ic:#0d9488;--fx-ic-bg:linear-gradient(145deg,#e4f7f5,#cfeeea)}
+.ic-gold{--fx-ic:#d99100;--fx-ic-bg:linear-gradient(145deg,#fff5dc,#ffe8b0)}
+
+.fx-badge{position:absolute;right:18px;top:18px;display:inline-flex;align-items:center;gap:7px;padding:7px 14px;border-radius:999px;font-size:13px;font-weight:600;color:var(--fx-b-ink);background:var(--fx-b-bg)}
+.fx-badge i{font-size:14px;color:var(--fx-b-icon,currentColor)}
+.b-blue{--fx-b-bg:#dcebff;--fx-b-ink:#1e40af;--fx-b-icon:#2563eb}
+.b-purple{--fx-b-bg:#ece4ff;--fx-b-ink:#4c1d95;--fx-b-icon:#7c3aed}
+.b-green{--fx-b-bg:#d8f5e5;--fx-b-ink:#14532d;--fx-b-icon:#16a34a}
+
+/* Tinted feature cards */
+.fx-daily h3,.fx-daily p,.fx-mock h3,.fx-mock p,.fx-progress h3,.fx-progress p{max-width:calc(100% - 190px)}
+.fx-daily{background:linear-gradient(120deg,#f3f8ff 0%,#e4efff 100%);border-color:#cfe0f7}
+.fx-apt{background:linear-gradient(90deg,#fff 0%,#fff 45%,#fff3e6 100%);--fx-blob:rgba(249,160,70,.10)}
+.fx-mock{background:linear-gradient(120deg,#fbf9ff 0%,#efe8ff 100%);border-color:#e0d6fb;--fx-blob:rgba(124,58,237,.07)}
+.fx-progress{background:linear-gradient(120deg,#f5fdf9 0%,#dff5ea 100%);border-color:#cdebdc;--fx-blob:rgba(22,163,74,.08)}
+.fx-comm{--fx-blob:rgba(124,58,237,.06)}.fx-resume{--fx-blob:rgba(13,148,136,.06)}.fx-contest{--fx-blob:rgba(249,160,70,.08)}.fx-dsa{--fx-blob:rgba(15,159,134,.06)}
+
+/* Illustrations (decorative) */
+.fx-art{position:absolute;z-index:-1;pointer-events:none}
+.fx-art img{display:block;width:100%;height:100%;object-fit:contain}
+.fx-daily .fx-art{right:20px;bottom:14px;width:176px;height:122px}
+.fx-mock .fx-art{right:22px;bottom:12px;width:176px;height:127px}
+.fx-progress .fx-art{right:22px;bottom:6px;width:176px;height:135px}
+.fx-foot{display:flex;align-items:center;justify-content:center;gap:18px;margin:30px 0 0;font-size:12px;font-weight:600;letter-spacing:2.6px;color:#6e7fa0}
+.fx-foot:before,.fx-foot:after{content:'';width:46px;height:1px;background:#b9c7dc}
+
+/* Reveal on scroll (enabled by JS; without it everything is visible) */
+.fx-js .fx-card{opacity:0;transform:translateY(18px)}
+.fx-js .fx-card.is-in{opacity:1;transform:none;transition:opacity .6s cubic-bezier(.2,.7,.2,1) var(--d,0ms),transform .6s cubic-bezier(.2,.7,.2,1) var(--d,0ms),box-shadow .3s}
+.fx-js .fx-card.is-in:hover{transform:translateY(-4px);transition-delay:0ms}
+
+/* Responsive */
+@media (max-width:1180px){
+  .fx-note,.fx-plane,.fx-dots{display:none}
+  .fx-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .fx-w7,.fx-w8,.fx-w9,.fx-w10{grid-column:span 1}
+  .fx-daily,.fx-mock,.fx-progress{grid-column:1/-1}
+  .fx-card p{max-width:340px}
+}
+@media (max-width:640px){
+  .fx{padding:64px 0 44px}
+  .fx-shell{width:calc(100% - 32px)}
+  .fx-head{margin-bottom:28px}
+  .fx-head h2{letter-spacing:-1.2px}
+  .fx-grid{grid-template-columns:minmax(0,1fr);gap:14px}
+  .fx-card{min-height:0;padding:20px 20px 18px}
+  .fx-card h3{font-size:18.5px}
+  .fx-card p{max-width:none;font-size:14px}
+  .fx-icon{width:52px;height:52px;font-size:23px;border-radius:14px}
+  .fx-badge{right:14px;top:14px;padding:6px 11px;font-size:12px}
+  .fx-daily h3,.fx-daily p,.fx-mock h3,.fx-mock p,.fx-progress h3,.fx-progress p{max-width:58%}
+  .fx-daily .fx-art{right:12px;bottom:14px;transform:scale(.72);transform-origin:100% 100%}
+  .fx-mock .fx-art{right:12px;bottom:14px;transform:scale(.72);transform-origin:100% 100%}
+  .fx-progress .fx-art{right:14px;bottom:12px;transform:scale(.7);transform-origin:100% 100%}
+  .fx-foot{font-size:10.5px;letter-spacing:2px;gap:12px}
+  .fx-foot:before,.fx-foot:after{width:28px}
+}
+@media (prefers-reduced-motion:reduce){
+  .fx-js .fx-card{opacity:1;transform:none}
+  .fx-card,.fx-link i{transition:none}
+}

@@ -1,0 +1,74 @@
+/* CareerPilot — "What is CareerPilot?" (homepage #what) */
+.wi{padding:72px 0;background:#fff}
+.wi-shell{position:relative;width:min(1320px,calc(100% - 36px));margin:0 auto;padding:56px 48px 104px;overflow:hidden;border:1px solid #e3ecf7;border-radius:30px;background:radial-gradient(circle at 50% 30%,rgba(21,112,239,.05),transparent 50%),linear-gradient(180deg,#fafcff 0%,#f2f7fd 100%);box-shadow:0 24px 64px rgba(5,29,100,.08)}
+.wi-shell:before,.wi-shell:after{content:'';position:absolute;border-radius:50%;pointer-events:none}
+.wi-shell:before{left:-90px;bottom:-150px;width:420px;height:320px;background:radial-gradient(circle,rgba(125,196,240,.2),rgba(125,196,240,.06) 60%,transparent 70%)}
+.wi-shell:after{right:-80px;bottom:-190px;width:520px;height:340px;background:radial-gradient(circle,rgba(125,196,240,.16),transparent 68%)}
+.wi-blob{position:absolute;left:-60px;top:20px;width:140px;height:140px;border-radius:50%;background:rgba(125,196,240,.14);pointer-events:none}
+.wi-blob--r{left:auto;right:-50px;top:-50px;width:150px;height:150px}
+
+/* Header */
+.wi-head{position:relative;z-index:1;max-width:860px;margin:0 auto 52px;text-align:center}
+.wi-kicker{display:flex;justify-content:center;align-items:center;gap:18px;font-size:13px;font-weight:600;letter-spacing:2.6px;color:#2e4a86}
+.wi-kicker:before,.wi-kicker:after{content:'';width:34px;height:1px;background:#c6d4e8}
+.wi-kicker span{padding:9px 20px;border-radius:999px;background:#e5f0fc}
+.wi-head h2{position:relative;display:inline-block;margin:22px 0 16px;font-size:clamp(36px,4.3vw,60px);line-height:1.05;letter-spacing:-2px;color:#081a5e;font-weight:800}
+.wi-head h2 span{background:linear-gradient(95deg,#1d4ed8 0%,#1570EF 45%,#1aa0c4 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.wi-head h2 svg{position:absolute;right:-30px;top:-18px;width:30px;height:30px;fill:none;stroke:#1aa0c4;stroke-width:3;stroke-linecap:round}
+.wi-head p{max-width:780px;margin:0 auto;font-size:17px;line-height:1.65;color:#4f6285}
+
+/* Decorative notes */
+.wi-note{position:absolute;z-index:1;font-family:Caveat,'Segoe Print',cursive;font-size:21px;font-weight:600;line-height:1.05;color:rgba(30,58,138,.55);white-space:nowrap;pointer-events:none}
+.wi-note--from{left:4.5%;top:190px;transform:rotate(-10deg)}
+.wi-note--to{right:3%;top:210px;text-align:center;transform:rotate(-16deg)}
+.wi-note--foot{right:6%;bottom:22px;text-align:center;transform:rotate(-12deg)}
+.wi-note--foot:after{content:'';display:block;width:70%;height:6px;margin:3px auto 0;border-bottom:2px solid rgba(26,160,196,.55);border-radius:0 0 60% 40%}
+.wi-trail{position:absolute;z-index:0;fill:none;stroke:rgba(30,58,138,.35);stroke-width:1.6;stroke-dasharray:5 6;stroke-linecap:round;pointer-events:none}
+.wi-trail--l{left:11%;top:250px;width:130px;height:80px}
+.wi-trail--r{right:8%;top:170px;width:140px;height:150px}
+.wi-plane{position:absolute;z-index:1;right:6.5%;top:140px;font-size:42px;color:#4cb8e6;transform:rotate(-12deg);pointer-events:none}
+
+/* Steps */
+.wi-steps{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1fr) 38px minmax(0,1fr) 38px minmax(0,1fr) 38px minmax(0,1fr);align-items:center;margin:0;padding:0;list-style:none}
+.wi-arrow{display:grid;place-items:center;font-size:22px;color:var(--wi-a,#2aa6d8)}
+.wi-card{position:relative;isolation:isolate;height:100%;min-height:258px;padding:24px 22px 30px;overflow:hidden;border:1px solid rgba(214,227,243,.9);border-radius:20px;background:var(--wi-bg);box-shadow:0 14px 36px rgba(5,29,100,.07);transition:transform .3s cubic-bezier(.2,.7,.2,1),box-shadow .3s}
+.wi-card:hover{transform:translateY(-5px);box-shadow:0 22px 48px rgba(5,29,100,.12)}
+.wi-card:after{content:'';position:absolute;z-index:-1;left:-10%;right:-10%;bottom:-40px;height:110px;border-radius:50% 50% 0 0/100% 100% 0 0;background:var(--wi-wave);transform:rotate(-6deg);transform-origin:100% 100%}
+.wi-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:22px}
+.wi-icon{display:grid;place-items:center;width:76px;height:76px;border-radius:50%;background:var(--wi-ibg);color:var(--wi-ic);font-size:32px}
+.wi-num{display:grid;place-items:center;width:46px;height:46px;border-radius:50%;background:var(--wi-ibg);color:var(--wi-ic);font-size:15px;font-weight:600}
+.wi-card h3{margin:0 0 10px;font-size:clamp(19px,1.6vw,22px);white-space:nowrap;line-height:1.2;letter-spacing:-.4px;color:#0a1a5c}
+.wi-card p{margin:0;font-size:15.5px;line-height:1.6;color:#4f6285}
+.wi-c1{--wi-bg:linear-gradient(160deg,#fff 0%,#f3f8ff 100%);--wi-ibg:#e1eeff;--wi-ic:#2563eb;--wi-wave:rgba(96,165,250,.12)}
+.wi-c2{--wi-bg:linear-gradient(160deg,#fff 0%,#effaf8 100%);--wi-ibg:#dcf4ef;--wi-ic:#0f9f86;--wi-wave:rgba(45,212,191,.12)}
+.wi-c3{--wi-bg:linear-gradient(160deg,#fffdfa 0%,#fff3e7 100%);--wi-ibg:#ffe6cf;--wi-ic:#e47a12;--wi-wave:rgba(251,146,60,.12)}
+.wi-c4{--wi-bg:linear-gradient(160deg,#fcfbff 0%,#f0edff 100%);--wi-ibg:#e6e3ff;--wi-ic:#4f46e5;--wi-wave:rgba(129,140,248,.14)}
+.wi-a2{--wi-a:#18a8a0}.wi-a3{--wi-a:#5b8def}
+
+@media (max-width:1180px){
+  .wi-shell{padding:48px 32px 56px}
+  .wi-note,.wi-trail,.wi-plane{display:none}
+  .wi-steps{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+  .wi-arrow{display:none}
+  .wi-card h3{font-size:21px}
+}
+@media (max-width:640px){
+  .wi{padding:52px 0}
+  .wi-shell{width:calc(100% - 24px);padding:36px 16px 20px;border-radius:22px}
+  .wi-head{margin-bottom:30px}
+  .wi-kicker{gap:10px;font-size:11px;letter-spacing:1.8px}
+  .wi-kicker:before,.wi-kicker:after{width:18px}
+  .wi-kicker span{padding:8px 14px}
+  .wi-head h2{letter-spacing:-1.2px}
+  .wi-head h2 svg{display:none}
+  .wi-card h3{white-space:normal}
+  .wi-head p{font-size:15px}
+  .wi-steps{grid-template-columns:minmax(0,1fr);gap:14px}
+  .wi-card{min-height:0;padding:22px 20px 26px}
+  .wi-top{margin-bottom:16px}
+  .wi-icon{width:62px;height:62px;font-size:26px}
+  .wi-num{width:40px;height:40px;font-size:14px}
+  .wi-card h3{font-size:20px}
+  .wi-card p{font-size:15px}
+}
+@media (prefers-reduced-motion:reduce){.wi-card{transition:none}}

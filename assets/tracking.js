@@ -8,7 +8,7 @@
   window.addAttributionToPlatformUrl=href=>{if(!href)return href;let u;try{u=new URL(href,location.href)}catch{return href}if(u.hostname!=='platform.codebegun.com'||!u.pathname.startsWith('/careerpilot'))return href;Object.entries(stored()).forEach(([k,v])=>u.searchParams.set(k,v));const l=sessionStorage.getItem('cp_landing_page'),e=sessionStorage.getItem('cp_entry_path');if(l)u.searchParams.set('landing_page',l);if(e)u.searchParams.set('entry_path',e);return u.toString()};
   if(!window.__cpAttributionClickHandlerInstalled){window.__cpAttributionClickHandlerInstalled=true;document.addEventListener('click',e=>{const a=e.target.closest?.('a[href]');if(!a)return;const h=window.addAttributionToPlatformUrl(a.getAttribute('href'));if(h&&h!==a.getAttribute('href'))a.setAttribute('href',h)},true)}
 
-  const core=document.createElement('script');core.src='/assets/tracking-core.js?v=20260917-1';
+  const core=document.createElement('script');core.src='/assets/tracking-core.js?v=20260917-8';
   core.onload=()=>{
     const pricing=document.querySelector('#pricing');if(!pricing)return;
     if(!document.querySelector('#careerpilot-ecosystem')){
