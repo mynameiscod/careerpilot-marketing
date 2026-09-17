@@ -130,6 +130,7 @@
 
   // Keep every primary CareerPilot CTA consistent with the page intent.
   document.querySelectorAll('[data-track="readiness"],[data-track="career-readiness"],[data-track="membership"]').forEach(el => {
+    if (el.hasAttribute('data-cta-keep')) return;
     const hasArrow = !!el.querySelector('.bi-arrow-right');
     el.innerHTML = `${pageCta}${hasArrow ? ' <i class="bi bi-arrow-right"></i>' : ''}`;
   });
