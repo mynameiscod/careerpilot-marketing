@@ -8,7 +8,7 @@
   window.addAttributionToPlatformUrl=href=>{if(!href)return href;let u;try{u=new URL(href,location.href)}catch{return href}if(u.hostname!=='platform.codebegun.com'||!u.pathname.startsWith('/careerpilot'))return href;Object.entries(stored()).forEach(([k,v])=>u.searchParams.set(k,v));const l=sessionStorage.getItem('cp_landing_page'),e=sessionStorage.getItem('cp_entry_path');if(l)u.searchParams.set('landing_page',l);if(e)u.searchParams.set('entry_path',e);return u.toString()};
   if(!window.__cpAttributionClickHandlerInstalled){window.__cpAttributionClickHandlerInstalled=true;document.addEventListener('click',e=>{const a=e.target.closest?.('a[href]');if(!a)return;const h=window.addAttributionToPlatformUrl(a.getAttribute('href'));if(h&&h!==a.getAttribute('href'))a.setAttribute('href',h)},true)}
 
-  const core=document.createElement('script');core.src='/assets/tracking-core.js?v=20260917-8';
+  const core=document.createElement('script');core.src='/assets/tracking-core.js?v=20261012-1';
   core.onload=()=>{
     const pricing=document.querySelector('#pricing');if(!pricing)return;
     if(!document.querySelector('#careerpilot-ecosystem')){
@@ -122,9 +122,9 @@
       const fit=()=>{if(wide.matches){const k=Math.min(1,scene.clientWidth/1320);stage.style.transform=`scale(${k})`;scene.style.height=`${Math.ceil(1000*k)+2}px`}else{stage.style.transform='';scene.style.height=''}};
       fit();window.addEventListener('resize',fit);
     }
-    const button=pricing.querySelector('[data-track="membership"]');if(button)button.innerHTML='Get CareerPilot — ₹1,999 <i class="bi bi-arrow-right"></i>';
+    const button=pricing.querySelector('[data-track="membership"]');if(button)button.innerHTML='Get CareerPilot — ₹11,999 <i class="bi bi-arrow-right"></i>';
     const trust=pricing.querySelector('.cp-trust-row');if(trust)trust.innerHTML=`<div><i class="bi bi-shield-lock"></i><b>Secure Payment</b><span>Protected checkout</span></div><div><i class="bi bi-calendar-check"></i><b>12 Months Access</b><span>One-time payment</span></div><div><i class="bi bi-headset"></i><b>Student Support</b><span>Help when you need it</span></div>`;
-    const reassurance=pricing.querySelector('.cp-gift');if(reassurance)reassurance.innerHTML='<i class="bi bi-check-circle"></i><span><b>₹1,999 one-time</b> • 12 months access • No monthly subscription</span>';
+    const reassurance=pricing.querySelector('.cp-gift');if(reassurance)reassurance.innerHTML='<i class="bi bi-check-circle"></i><span><b>₹11,999 one-time</b> • 12 months access • No monthly subscription</span>';
     const bottom=pricing.querySelector('.cp-price-bottom');if(bottom)bottom.innerHTML=`<div><i class="bi bi-buildings"></i><span><b>Built by CodeBegun</b><span>Career & technology learning ecosystem</span></span></div><div><i class="bi bi-people"></i><span><b>Industry-Designed</b><span>Built around employability skills</span></span></div><div><i class="bi bi-signpost-split"></i><span><b>Personalized Journey</b><span>Assessment → gaps → roadmap → action</span></span></div><div><i class="bi bi-calendar-check"></i><span><b>12 Months Access</b><span>One membership, full CareerPilot journey</span></span></div>`;
     const style=document.createElement('style');style.textContent='.cp-trust-row span{display:block;color:#66728a;font-size:9px;line-height:1.35;margin-top:3px}.cp-gift b{color:#051D64}.cp-price-right>a.btn+ .cp-trust-row{margin-top:16px}';document.head.appendChild(style);
   };
