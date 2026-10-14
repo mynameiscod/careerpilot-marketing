@@ -18,7 +18,7 @@ html,body{overflow-x:clip}
 .cb-links a{padding:9px clamp(6px,.9vw,14px);font-size:clamp(12.5px,1vw,14px);font-weight:600;transition:background .15s,color .15s}
 .cb-actions{flex:0 0 auto;align-items:center;gap:10px}
 .cb-actions .btn{padding:11px clamp(12px,1.3vw,20px);font-size:clamp(12.5px,1vw,14px);line-height:1.2;border-radius:10px}
-@media(min-width:981px) and (max-width:1399px){
+@media(min-width:981px) and (max-width:1599px){
 .cb-brand img{width:160px}
 .cb-actions .btn-outline{display:none}
 }
