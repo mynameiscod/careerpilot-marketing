@@ -1,5 +1,9 @@
 RewriteEngine On
 
+# Old domain -> new domain
+RewriteCond %{HTTP_HOST} ^careerpilot\.codebegun\.com$ [NC]
+RewriteRule ^(.*)$ https://cbcareerpilot.com/$1 [R=301,L]
+
 # Force HTTPS
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://cbcareerpilot.com/$1 [R=301,L]
