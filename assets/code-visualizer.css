@@ -1,5 +1,5 @@
 /* CareerPilot — "Code Visualizer" step-by-step execution demo (homepage #code-visualizer) */
-.cvz{position:relative;padding:84px 0 72px;overflow:hidden;background:radial-gradient(circle at 10% 12%,rgba(109,40,217,.07),transparent 30%),radial-gradient(circle at 90% 80%,rgba(21,112,239,.08),transparent 32%),linear-gradient(180deg,#fff 0%,#f3f7fd 100%)}
+.cvz{position:relative;padding:56px 0 40px;overflow:hidden;background:radial-gradient(circle at 10% 12%,rgba(109,40,217,.07),transparent 30%),radial-gradient(circle at 90% 80%,rgba(21,112,239,.08),transparent 32%),linear-gradient(180deg,#fff 0%,#f3f7fd 100%)}
 .cvz-shell{position:relative;width:min(1320px,calc(100% - 36px));margin:0 auto}
 
 /* Header */
@@ -110,5 +110,5 @@
 @keyframes cvzType{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:none}}
 
 @media(max-width:980px){.cvz-main{grid-template-columns:1fr}.cvz-code{max-height:none}.cvz-benefits{grid-template-columns:1fr}}
-@media(max-width:640px){.cvz{padding:56px 0 48px}.cvz-shell{width:min(100% - 32px,1320px)}.cvz-code{font-size:12px}.cvz-line .no{width:38px;padding-right:10px}.cvz-line.is-cur .no:after{left:3px}.cvz-lang,.cvz-dots{display:none}.cvz-tabs{flex-wrap:wrap;margin-left:0}.cvz-tab{padding:7px 10px;font-size:12px}.cvz-ctrl{flex-wrap:wrap;gap:8px}.cvz-prog{order:5;flex-basis:100%}.cvz-speed{margin-left:auto}.cvz-side{padding:12px}}
+@media(max-width:640px){.cvz{padding:40px 0 32px}.cvz-shell{width:min(100% - 32px,1320px)}.cvz-code{font-size:12px}.cvz-line .no{width:38px;padding-right:10px}.cvz-line.is-cur .no:after{left:3px}.cvz-lang,.cvz-dots{display:none}.cvz-tabs{flex-wrap:wrap;margin-left:0}.cvz-tab{padding:7px 10px;font-size:12px}.cvz-ctrl{flex-wrap:wrap;gap:8px}.cvz-prog{order:5;flex-basis:100%}.cvz-speed{margin-left:auto}.cvz-side{padding:12px}}
 @media(prefers-reduced-motion:reduce){.cvz-frame.is-in,.cvz-frame.is-out,.cvz-var.is-chg,.cvz-console div{animation:none}.cvz-line,.cvz-prog span,.cvz-cell .v{transition:none}}

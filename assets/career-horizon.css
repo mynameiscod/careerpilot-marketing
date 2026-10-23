@@ -13,7 +13,7 @@
 
 /* Header */
 .ch-sticky{display:flex;flex-direction:column}
-.ch-head{padding:clamp(56px,9vh,96px) 0 clamp(18px,3vh,32px);text-align:center}
+.ch-head{padding:clamp(32px,5vh,48px) 0 clamp(18px,3vh,32px);text-align:center}
 .ch-eyebrow{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:rgba(53,154,173,.11);color:#1f7f90;font-size:12px;font-weight:800;letter-spacing:1.6px}
 .ch-head h2{margin:clamp(12px,1.8vh,18px) 0 clamp(8px,1.4vh,14px);font-size:clamp(30px,3.4vw,48px);line-height:1.08;letter-spacing:-1.6px;color:var(--ch-navy)}
 .ch-head h2 span{background:linear-gradient(95deg,#0b3a9a 0%,var(--ch-blue) 45%,var(--ch-teal) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -104,7 +104,7 @@
 /* Mobile: shallow horizon — previous · active · next — with details beneath */
 @media (max-width:767px){
   .ch{--ch-r:clamp(330px,96vw,420px);--ch-arc-top:58px}
-  .ch-head{padding:64px 20px 8px}
+  .ch-head{padding:40px 20px 8px}
   .ch-head h2{letter-spacing:-1px}
   .ch-head h2 span{display:block}
   .ch-head p{font-size:15px}

@@ -1,5 +1,5 @@
 /* CareerPilot — Industry Relations section (markup injected by assets/tracking-core.js on every landing page) */
-.industry-relations{--ir-navy:#051D64;--ir-teal:#359AAD;padding:80px 0;background:linear-gradient(180deg,#fff 0%,#f4f9fd 100%)}
+.industry-relations{--ir-navy:#051D64;--ir-teal:#359AAD;padding:56px 0 40px;background:linear-gradient(180deg,#fff 0%,#f4f9fd 100%)}
 .ir2{position:relative;width:min(1320px,calc(100% - 36px));margin:0 auto;padding:44px 44px 26px;overflow:hidden;border:1px solid #dfeaf6;border-radius:30px;background:radial-gradient(circle at 8% 10%,rgba(53,154,173,.10),transparent 32%),radial-gradient(circle at 96% 96%,rgba(21,112,239,.07),transparent 34%),linear-gradient(135deg,#fbfdff 0%,#f1f7fd 100%);box-shadow:0 24px 64px rgba(5,29,100,.08)}
 .ir2:before{content:'';position:absolute;right:-20px;top:-20px;width:220px;height:160px;pointer-events:none;background-image:radial-gradient(rgba(37,99,235,.2) 1.4px,transparent 1.7px);background-size:15px 15px;opacity:.5}
 .ir2-main{position:relative;display:grid;grid-template-columns:minmax(0,45fr) minmax(0,55fr);gap:40px;align-items:center}
@@ -53,7 +53,7 @@
   .ir2-hand{display:none}
 }
 @media (max-width:760px){
-  .industry-relations{padding:60px 0}
+  .industry-relations{padding:40px 0 32px}
   .ir2{width:calc(100% - 24px);padding:28px 16px 18px;border-radius:22px}
   .ir2-copy h2{letter-spacing:-1.1px}
   .ir2-copy>p{font-size:15px}

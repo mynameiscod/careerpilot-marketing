@@ -1,5 +1,5 @@
 /* CareerPilot — "What is CareerPilot?" (homepage #what) */
-.wi{padding:72px 0;background:#fff}
+.wi{padding:56px 0 40px;background:#fff}
 .wi-shell{position:relative;width:min(1320px,calc(100% - 36px));margin:0 auto;padding:56px 48px 104px;overflow:hidden;border:1px solid #e3ecf7;border-radius:30px;background:radial-gradient(circle at 50% 30%,rgba(21,112,239,.05),transparent 50%),linear-gradient(180deg,#fafcff 0%,#f2f7fd 100%);box-shadow:0 24px 64px rgba(5,29,100,.08)}
 .wi-shell:before,.wi-shell:after{content:'';position:absolute;border-radius:50%;pointer-events:none}
 .wi-shell:before{left:-90px;bottom:-150px;width:420px;height:320px;background:radial-gradient(circle,rgba(125,196,240,.2),rgba(125,196,240,.06) 60%,transparent 70%)}
@@ -53,7 +53,7 @@
   .wi-card h3{font-size:21px}
 }
 @media (max-width:640px){
-  .wi{padding:52px 0}
+  .wi{padding:40px 0 32px}
   .wi-shell{width:calc(100% - 24px);padding:36px 16px 20px;border-radius:22px}
   .wi-head{margin-bottom:30px}
   .wi-kicker{gap:10px;font-size:11px;letter-spacing:1.8px}
