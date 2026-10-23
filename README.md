@@ -4,7 +4,7 @@ Public marketing website for **CareerPilot by CodeBegun**.
 
 ## Production domain
 
-`https://careerpilot.codebegun.com`
+`https://cbcareerpilot.com`
 
 ## Deployment
 
