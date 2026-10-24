@@ -43,8 +43,8 @@
             <span class="cp-price-chip"><i class="bi bi-lightning-charge-fill"></i> Limited Time Launch Offer</span>
             <h2>Your Career-Ready <span>Future Starts Here.</span></h2>
             <p>Get 12 months of CareerPilot access and build the skills, confidence and profile you need for internships and placements.</p>
-            <div class="cp-price-row"><span class="cp-price-old">₹19,999</span><span class="cp-price-off">40% OFF</span></div>
-            <div><span class="cp-price-new">₹11,999</span><span class="cp-price-term"> / 12 months</span></div>
+            <div class="cp-price-row"><span class="cp-price-old">₹9,999</span><span class="cp-price-off">50% OFF</span></div>
+            <div><span class="cp-price-new">₹4,999</span><span class="cp-price-term"> / 12 months</span></div>
             <div class="cp-launch-deadline"><i class="bi bi-calendar-event"></i><span>Launch offer valid until <b>19 Oct 2026</b></span></div>
             <div class="cp-price-mini">
               <div><i class="bi bi-calendar-check"></i><b>12 Months Access</b><span>Full CareerPilot access</span></div>
@@ -115,7 +115,7 @@
     const faq = document.createElement('section');
     faq.id = 'faq';
     faq.className = 'cp-faq-section';
-    faq.innerHTML = `<div class="container"><div class="cp-faq-head"><h2>Frequently Asked Questions</h2><p>Quick answers about CareerPilot, the launch offer and how the platform helps you prepare.</p></div><div class="cp-faq"><details><summary>What is CareerPilot?</summary><p>CareerPilot is an AI-powered career-readiness platform by CodeBegun that helps students assess their current skills, identify gaps, follow a personalized roadmap and improve through learning, practice and daily missions.</p></details><details><summary>Who can use CareerPilot?</summary><p>CareerPilot is designed for engineering and degree students across all years, including students who are still exploring career options and students actively preparing for internships or placements.</p></details><details><summary>Do I need to choose a career role before I start?</summary><p>No. Early-year students can begin with fundamentals, interests, reasoning, communication and technology awareness. Career direction can become more specific as the student progresses.</p></details><details><summary>What do I get with the ₹11,999 launch offer?</summary><p>You get 12 months of CareerPilot access, including career-readiness assessment, personalized roadmap, daily missions, learning resources, technical practice, communication support, resume and career-profile tools, interview preparation and progress tracking.</p></details><details><summary>How long is the ₹11,999 launch offer valid?</summary><p>The ₹11,999 launch offer is valid until 19 October 2026. Pricing may change after the launch-offer period.</p></details><details><summary>Does CareerPilot guarantee a placement?</summary><p>No platform can responsibly guarantee a job outcome. CareerPilot is designed to improve career readiness by helping students build skills, practice consistently, strengthen their profile and prepare better for internships and placement opportunities.</p></details></div><div class="cp-faq-note"><b>Launch offer:</b> ₹11,999 for 12 months · Valid until 19 Oct 2026</div></div>`;
+    faq.innerHTML = `<div class="container"><div class="cp-faq-head"><h2>Frequently Asked Questions</h2><p>Quick answers about CareerPilot, the launch offer and how the platform helps you prepare.</p></div><div class="cp-faq"><details><summary>What is CareerPilot?</summary><p>CareerPilot is an AI-powered career-readiness platform by CodeBegun that helps students assess their current skills, identify gaps, follow a personalized roadmap and improve through learning, practice and daily missions.</p></details><details><summary>Who can use CareerPilot?</summary><p>CareerPilot is designed for engineering and degree students across all years, including students who are still exploring career options and students actively preparing for internships or placements.</p></details><details><summary>Do I need to choose a career role before I start?</summary><p>No. Early-year students can begin with fundamentals, interests, reasoning, communication and technology awareness. Career direction can become more specific as the student progresses.</p></details><details><summary>What do I get with the ₹4,999 launch offer?</summary><p>You get 12 months of CareerPilot access, including career-readiness assessment, personalized roadmap, daily missions, learning resources, technical practice, communication support, resume and career-profile tools, interview preparation and progress tracking.</p></details><details><summary>How long is the ₹4,999 launch offer valid?</summary><p>The ₹4,999 launch offer is valid until 19 October 2026. Pricing may change after the launch-offer period.</p></details><details><summary>Does CareerPilot guarantee a placement?</summary><p>No platform can responsibly guarantee a job outcome. CareerPilot is designed to improve career readiness by helping students build skills, practice consistently, strengthen their profile and prepare better for internships and placement opportunities.</p></details></div><div class="cp-faq-note"><b>Launch offer:</b> ₹4,999 for 12 months · Valid until 19 Oct 2026</div></div>`;
     finalCtaSection.parentNode.insertBefore(faq, finalCtaSection);
 
     faq.querySelectorAll('details').forEach((item, index) => {
@@ -146,7 +146,7 @@
       cpTrack('login_click',{standard:false,name:'LoginClick'},{cta_location:locationName,destination:href});
     }
     if(kind==='membership') {
-      const purchaseIntent = {plan:'CareerPilot Annual',value:11999,currency:'INR',cta_location:locationName,cta_text:text,destination:href};
+      const purchaseIntent = {plan:'CareerPilot Annual',value:4999,currency:'INR',cta_location:locationName,cta_text:text,destination:href};
       const payload = {...basePayload(),...purchaseIntent};
       fireGA('membership_cta_click',payload);
       fireMeta('track','InitiateCheckout',{...payload,content_name:'CareerPilot Annual Membership'});
@@ -175,7 +175,7 @@
     let fired=false;
     const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting&&!fired){
       fired=true;
-      const payload={...basePayload(),content_name:'CareerPilot Annual Membership',plan:'CareerPilot Annual',value:11999,currency:'INR'};
+      const payload={...basePayload(),content_name:'CareerPilot Annual Membership',plan:'CareerPilot Annual',value:4999,currency:'INR'};
       fireGA('pricing_view',payload);
       fireMeta('track','ViewContent',payload);
       firePostHog('pricing_view',payload);
