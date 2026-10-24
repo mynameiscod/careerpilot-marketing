@@ -94,7 +94,7 @@
   /* ---------- State ---------- */
   const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
   const ease = t => t * t * (3 - 2 * t);
-  let mode = '', navH = 0, stepPx = 0, startHold = 0;
+  let mode = '', navH = 0, pinTop = 0, stepPx = 0, startHold = 0;
   let cur = 0, target = 0, running = false, active = -1;
   let maxDn = 2.5, fadeActive = true;
   const nodeCache = nodes.map(() => ({ t: '', o: '', v: null }));
@@ -146,7 +146,7 @@
   /* ---------- Scroll mode (desktop / tablet) ---------- */
   function scrollTarget() {
     const rect = track.getBoundingClientRect();
-    const p = clamp((navH - rect.top - startHold) / stepPx, 0, N - 1);
+    const p = clamp((pinTop - rect.top - startHold) / stepPx, 0, N - 1);
     const base = Math.min(Math.floor(p), N - 1);
     const frac = p - base;
     return base + ease(clamp((frac - CONFIG.pause) / (1 - 2 * CONFIG.pause), 0, 1));
@@ -156,7 +156,7 @@
   function goTo(i) {
     if (mode === 'scroll') {
       const k = clamp(i, 0, N - 1);
-      const top = track.getBoundingClientRect().top + window.scrollY - navH + startHold + k * stepPx;
+      const top = track.getBoundingClientRect().top + window.scrollY - pinTop + startHold + k * stepPx;
       window.scrollTo({ top, behavior: reduceMotion.matches ? 'auto' : 'smooth' });
     } else {
       const here = ((Math.round(target) % N) + N) % N;
@@ -172,6 +172,11 @@
     const w = window.innerWidth, h = window.innerHeight;
     navH = nav ? nav.getBoundingClientRect().height : 0;
     section.style.setProperty('--ch-nav', `${Math.round(navH)}px`);
+    // On tall windows cap the pinned panel and centre it, so the heading and wheel are not pushed apart.
+    const panelH = Math.min(h - navH, 1100);
+    pinTop = navH + (h - navH - panelH) / 2;
+    section.style.setProperty('--ch-panel-h', `${Math.round(panelH)}px`);
+    section.style.setProperty('--ch-pin-top', `${Math.round(pinTop)}px`);
     const next = !reduceMotion.matches && w >= 768 && h >= 620 ? 'scroll' : 'step';
     maxDn = w >= 1200 ? 2.5 : w >= 1000 ? 2.2 : w >= 768 ? 1.6 : 1.35;
     fadeActive = w >= 768;
@@ -186,7 +191,7 @@
     if (mode === 'scroll') {
       stepPx = h * CONFIG.scrollPerCareerVh;
       startHold = h * CONFIG.startHoldVh;
-      track.style.height = `${Math.round(h - navH + startHold + stepPx * (N - 1) + h * CONFIG.endHoldVh)}px`;
+      track.style.height = `${Math.round(panelH + startHold + stepPx * (N - 1) + h * CONFIG.endHoldVh)}px`;
       target = cur = scrollTarget();
     } else {
       track.style.height = '';

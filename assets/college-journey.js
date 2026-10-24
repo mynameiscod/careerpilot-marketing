@@ -181,7 +181,7 @@
   /* ---------- Scroll controller ---------- */
   const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
   const ease = t => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
-  let mode = '', navH = 0, step = 0, startHold = 0, cardH = 0, ticking = false, lastActive = -1;
+  let mode = '', navH = 0, pinTop = 0, step = 0, startHold = 0, cardH = 0, ticking = false, lastActive = -1;
   const shades = cards.map(c => c.querySelector('.cj-card__shade'));
   const cache = cards.map(() => ({ t: '', o: '', shown: null }));
   let observer = null;
@@ -193,6 +193,11 @@
     const w = window.innerWidth, h = window.innerHeight;
     navH = nav ? nav.getBoundingClientRect().height : 0;
     section.style.setProperty('--cj-nav', `${Math.round(navH)}px`);
+    // On tall windows cap the pinned panel and centre it, so the card does not float in a sea of blank space.
+    const panelH = Math.min(h - navH, 1200);
+    pinTop = navH + (h - navH - panelH) / 2;
+    section.style.setProperty('--cj-panel-h', `${Math.round(panelH)}px`);
+    section.style.setProperty('--cj-pin-top', `${Math.round(pinTop)}px`);
     const next = reduce ? 'static' : (w >= 768 && h >= 600 ? 'stacked' : (w < 768 ? 'mobile' : 'static'));
 
     if (next !== mode) {
@@ -213,7 +218,7 @@
     if (mode === 'stacked') {
       step = h * TUNING.stepVh;
       startHold = h * TUNING.startHoldVh;
-      const stickyH = h - navH;
+      const stickyH = panelH;
       track.style.height = `${Math.round(stickyH + startHold + step * (total - 1) + h * TUNING.endHoldVh)}px`;
       cardH = cards[0].offsetHeight;
       update();
@@ -230,7 +235,7 @@
     ticking = false;
     if (mode !== 'stacked') return;
     const rect = track.getBoundingClientRect();
-    const p = clamp((navH - rect.top - startHold) / step, 0, total - 1);
+    const p = clamp((pinTop - rect.top - startHold) / step, 0, total - 1);
     const pause = (1 - TUNING.moveWindow) / 2;
     const arrive = cards.map((_, i) => (i === 0 ? 1 : ease(clamp((p - (i - 1) - pause) / TUNING.moveWindow, 0, 1))));
     const E = arrive.reduce((sum, a, i) => sum + (i === 0 ? 0 : a), 0);
