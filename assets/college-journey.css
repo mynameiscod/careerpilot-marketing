@@ -1,5 +1,5 @@
 /* CareerPilot — College Journey (stacked scroll story). Used by assets/college-journey.js */
-.cj{--cj-navy:#051D64;--cj-teal:#359AAD;--cj-nav:76px;--cj-card-h:clamp(460px,calc(100vh - var(--cj-nav) - 150px),640px);position:relative;padding:64px 0 40px;background:linear-gradient(180deg,#fff 0%,#f6fafe 18%,#f3f8fd 82%,#fff 100%)}
+.cj{--cj-navy:#051D64;--cj-teal:#359AAD;--cj-nav:76px;--cj-card-h:clamp(460px,calc(100vh - var(--cj-nav) - 120px),860px);position:relative;padding:64px 0 40px;background:linear-gradient(180deg,#fff 0%,#f6fafe 18%,#f3f8fd 82%,#fff 100%)}
 .cj-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none}
 .cj-bg:before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 12% 16%,rgba(53,154,173,.10),transparent 34%),radial-gradient(circle at 90% 44%,rgba(37,99,235,.07),transparent 36%),radial-gradient(circle at 24% 88%,rgba(53,154,173,.06),transparent 32%)}
 .cj-bg:after{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(5,29,100,.10) 1px,transparent 1.3px);background-size:26px 26px;opacity:.45;-webkit-mask-image:linear-gradient(180deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(180deg,transparent,#000 12%,#000 88%,transparent)}
@@ -115,7 +115,7 @@
 .cj--stacked .cj-head{margin-bottom:12px}
 .cj--stacked .cj-sticky{position:sticky;top:var(--cj-nav);height:calc(100vh - var(--cj-nav));overflow:hidden}
 .cj--stacked .cj-stage{display:grid;grid-template-columns:190px minmax(0,1fr);gap:36px;height:100%}
-.cj--stacked .cj-deck{display:grid;grid-template-columns:minmax(0,1fr);align-content:center;max-width:none;height:100%;margin:0;padding:96px 0 36px}
+.cj--stacked .cj-deck{display:grid;grid-template-columns:minmax(0,1fr);align-content:center;max-width:none;height:100%;margin:0;padding:56px 0 36px}
 .cj--stacked .cj-card{grid-area:1/1;height:var(--cj-card-h);will-change:transform,opacity}
 .cj--stacked .cj-card+.cj-card{transform:translate3d(0,110%,0)}
 .cj--stacked .cj-card__body{height:100%;min-height:0}
